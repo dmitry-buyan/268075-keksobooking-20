@@ -81,7 +81,7 @@ var generatePinsData = function (count) {
 
       offer: {
         title: 'Заголовок ' + i,
-        address: x + ',' + y,
+        address: x + ', ' + y,
         price: getRandomNumberInRange(0, 100000),
         type: getRandomArrayElement(HOUSE_TYPES),
         rooms: getRandomNumberInRange(1, 6),
