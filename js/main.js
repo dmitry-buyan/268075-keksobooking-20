@@ -70,13 +70,6 @@ var shuffleArray = function (arr) {
 var generatePinsData = function (count) {
   var pins = [];
 
-  var Coords = {
-    minX: 0,
-    maxX: pinsList.offsetWidth - 50,
-    minY: 130,
-    maxY: 630
-  };
-
   for (var i = 1; i <= count; i++) {
     var x = getRandomNumberInRange(COORDS.minX, COORDS.maxX) + 'px';
     var y = getRandomNumberInRange(COORDS.minY, COORDS.maxY) + 'px';
