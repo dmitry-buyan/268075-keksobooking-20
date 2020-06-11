@@ -29,7 +29,6 @@ var FILE_TYPES = {
 var AVATAR_IMG = 'img/avatars/user0';
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 
 var pinsList = map.querySelector('.map__pins');
 
@@ -124,4 +123,38 @@ var renderPins = function (pins) {
   pinsList.appendChild(fragment);
 };
 
-renderPins(generatePinsData(PINS_COUNT));
+var adForm = document.querySelector('.ad-form');
+var formFieldsets = adForm.querySelectorAll('fieldset');
+
+var mainPin = map.querySelector('.map__pin--main');
+
+var inactivateForm = function () {
+  for (var i = 0; i < formFieldsets.length; i++) {
+    if (!formFieldsets[i].hasAttribute('disabled')) {
+      formFieldsets[i].setAttribute('disabled', 'disabled');
+    }
+  }
+};
+
+var activateForm = function () {
+  for (var i = 0; i < formFieldsets.length; i++) {
+    if (formFieldsets[i].hasAttribute('disabled')) {
+      formFieldsets[i].removeAttribute('disabled');
+    }
+  }
+};
+
+inactivateForm();
+
+var showMap = function () {
+  map.classList.remove('map--faded');
+};
+
+mainPin.addEventListener('mousedown', function (evt) {
+  if (evt) {
+
+  }
+  showMap();
+  activateForm();
+  renderPins(generatePinsData(PINS_COUNT));
+});
