@@ -128,14 +128,6 @@ var formFieldsets = adForm.querySelectorAll('fieldset');
 
 var mainPin = map.querySelector('.map__pin--main');
 
-var inactivateForm = function () {
-  for (var i = 0; i < formFieldsets.length; i++) {
-    if (!formFieldsets[i].hasAttribute('disabled')) {
-      formFieldsets[i].setAttribute('disabled', 'disabled');
-    }
-  }
-};
-
 var activateForm = function () {
   for (var i = 0; i < formFieldsets.length; i++) {
     if (formFieldsets[i].hasAttribute('disabled')) {
@@ -144,17 +136,33 @@ var activateForm = function () {
   }
 };
 
+var inactivateForm = function () {
+  for (var i = 0; i < formFieldsets.length; i++) {
+    if (!formFieldsets[i].hasAttribute('disabled')) {
+      formFieldsets[i].setAttribute('disabled', 'disabled');
+    }
+  }
+};
+
 inactivateForm();
 
-var showMap = function () {
+var onMainPinClick = function () {
   map.classList.remove('map--faded');
+  activateForm();
 };
 
 mainPin.addEventListener('mousedown', function (evt) {
-  if (evt) {
-
+  if (evt.button === 0) {
+    evt.preventDefault();
+    onMainPinClick();
+    renderPins(generatePinsData(PINS_COUNT));
   }
-  showMap();
-  activateForm();
-  renderPins(generatePinsData(PINS_COUNT));
+});
+
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    evt.preventDefault();
+    onMainPinClick();
+    renderPins(generatePinsData(PINS_COUNT));
+  }
 });
