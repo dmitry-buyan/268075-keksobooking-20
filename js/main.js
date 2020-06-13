@@ -28,6 +28,21 @@ var FILE_TYPES = {
 
 var AVATAR_IMG = 'img/avatars/user0';
 
+var MAIN_PIN = {
+  x: 570,
+  y: 375,
+  width: 65,
+  height: 65,
+
+  getCenterXCoords: function () {
+    return Math.floor(this.x + this.width / 2);
+  },
+
+  getCenterYCoords: function () {
+    return Math.floor(this.y + this.height / 2);
+  }
+};
+
 var map = document.querySelector('.map');
 
 var pinsList = map.querySelector('.map__pins');
