@@ -38,6 +38,11 @@ var MAIN_PIN = {
   sharpEdgeY: 460
 };
 
+var buttonKey = {
+  ENTER: 'Enter',
+  ESCAPE: 'Escape'
+};
+
 var map = document.querySelector('.map');
 
 var pinsList = map.querySelector('.map__pins');
@@ -180,7 +185,7 @@ mainPin.addEventListener('mousedown', function (evt) {
 });
 
 mainPin.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Enter') {
+  if (evt.key === buttonKey.ENTER) {
     evt.preventDefault();
     onMainPinClick();
     setPinAddress(MAIN_PIN);
@@ -192,13 +197,8 @@ var roomsQuantity = adForm.querySelector('#room_number');
 
 var guestsQuantity = adForm.querySelector('#capacity');
 
-roomsQuantity.addEventListener('change', function (evt) {
+roomsQuantity.addEventListener('change', function () {
   if (roomsQuantity.value === '1') {
-    guestsQuantity.forEach(function (item, index, array) {
-      console.log(item);
-      console.log(index);
-      console.log(array);
-    });
-      // guestsQuantity.options[i].setAttribute('disabled', 'disabled');
+    guestsQuantity.options[0].setAttribute('disabled', 'disabled');
   }
 });
