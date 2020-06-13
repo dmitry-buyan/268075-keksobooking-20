@@ -33,14 +33,9 @@ var MAIN_PIN = {
   y: 375,
   width: 65,
   height: 65,
-
-  getCenterXCoords: function () {
-    return Math.floor(this.x + this.width / 2);
-  },
-
-  getCenterYCoords: function () {
-    return Math.floor(this.y + this.height / 2);
-  }
+  centerX: 600,
+  centerY: 405,
+  sharpEdgeY: 460
 };
 
 var map = document.querySelector('.map');
@@ -48,6 +43,8 @@ var map = document.querySelector('.map');
 var pinsList = map.querySelector('.map__pins');
 
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+
+var mainPin = map.querySelector('.map__pin--main');
 
 var getRandomArrayIndex = function (arr) {
   return Math.floor(Math.random() * arr.length);
@@ -139,9 +136,12 @@ var renderPins = function (pins) {
 };
 
 var adForm = document.querySelector('.ad-form');
+
 var formFieldsets = adForm.querySelectorAll('fieldset');
 
-var mainPin = map.querySelector('.map__pin--main');
+var addressField = adForm.querySelector('#address');
+
+addressField.value = MAIN_PIN.centerX + ', ' + MAIN_PIN.centerY;
 
 var activateForm = function () {
   for (var i = 0; i < formFieldsets.length; i++) {
@@ -166,10 +166,15 @@ var onMainPinClick = function () {
   activateForm();
 };
 
+var setPinAddress = function (obj) {
+  addressField.value = obj.centerX + ', ' + obj.sharpEdgeY;
+};
+
 mainPin.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     evt.preventDefault();
     onMainPinClick();
+    setPinAddress(MAIN_PIN);
     renderPins(generatePinsData(PINS_COUNT));
   }
 });
@@ -178,6 +183,22 @@ mainPin.addEventListener('keydown', function (evt) {
   if (evt.key === 'Enter') {
     evt.preventDefault();
     onMainPinClick();
+    setPinAddress(MAIN_PIN);
     renderPins(generatePinsData(PINS_COUNT));
+  }
+});
+
+var roomsQuantity = adForm.querySelector('#room_number');
+
+var guestsQuantity = adForm.querySelector('#capacity');
+
+roomsQuantity.addEventListener('change', function (evt) {
+  if (roomsQuantity.value === '1') {
+    guestsQuantity.forEach(function (item, index, array) {
+      console.log(item);
+      console.log(index);
+      console.log(array);
+    });
+      // guestsQuantity.options[i].setAttribute('disabled', 'disabled');
   }
 });
