@@ -193,12 +193,30 @@ mainPin.addEventListener('keydown', function (evt) {
   }
 });
 
-var roomsQuantity = adForm.querySelector('#room_number');
+var roomsList = adForm.querySelector('#room_number');
 
-var guestsQuantity = adForm.querySelector('#capacity');
+var guestsList = adForm.querySelector('#capacity');
 
-roomsQuantity.addEventListener('change', function () {
-  if (roomsQuantity.value === '1') {
-    guestsQuantity.options[0].setAttribute('disabled', 'disabled');
+var validateSelect = function () {
+  var currentValue = roomsList.value;
+  if (currentValue === '100') {
+    for (var i = 0; i < guestsList.length; i++) {
+      guestsList.options[i].disabled = true;
+    }
+    guestsList.options[guestsList.length - 1].disabled = false;
+    guestsList.options[guestsList.length - 1].selected = true;
+  } else {
+    for (var j = 0; j < guestsList.length; j++) {
+      if (j < currentValue) {
+        guestsList.options[j].disabled = false;
+      } else {
+        guestsList.options[j].disabled = true;
+      }
+    }
+    guestsList.options[0].selected = true;
   }
+};
+
+roomsList.addEventListener('change', function () {
+  validateSelect();
 });
