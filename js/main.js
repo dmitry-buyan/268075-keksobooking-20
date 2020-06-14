@@ -213,7 +213,7 @@ var validateSelect = function () {
         guestsList.options[j].disabled = true;
       }
     }
-    guestsList.options[0].selected = true;
+    guestsList.options[j].selected = true;
   }
 };
 
