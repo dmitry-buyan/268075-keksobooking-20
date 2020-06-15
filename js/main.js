@@ -38,7 +38,9 @@ var MAIN_PIN = {
   sharpEdgeY: 460
 };
 
-var buttonKey = {
+var ROOMS_MAX_VALUE = '100';
+
+var Buttons = {
   ENTER: 'Enter',
   ESCAPE: 'Escape'
 };
@@ -146,7 +148,9 @@ var formFieldsets = adForm.querySelectorAll('fieldset');
 
 var addressField = adForm.querySelector('#address');
 
-addressField.value = MAIN_PIN.centerX + ', ' + MAIN_PIN.centerY;
+var setAddressValue = function () {
+  addressField.value = MAIN_PIN.centerX + ', ' + MAIN_PIN.centerY;
+};
 
 var activateForm = function () {
   for (var i = 0; i < formFieldsets.length; i++) {
@@ -156,7 +160,7 @@ var activateForm = function () {
   }
 };
 
-var inactivateForm = function () {
+var deactivateForm = function () {
   for (var i = 0; i < formFieldsets.length; i++) {
     if (!formFieldsets[i].hasAttribute('disabled')) {
       formFieldsets[i].setAttribute('disabled', 'disabled');
@@ -164,10 +168,9 @@ var inactivateForm = function () {
   }
 };
 
-inactivateForm();
-
 var onMainPinClick = function () {
   map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
   activateForm();
 };
 
@@ -175,23 +178,21 @@ var setPinAddress = function (obj) {
   addressField.value = obj.centerX + ', ' + obj.sharpEdgeY;
 };
 
-mainPin.addEventListener('mousedown', function (evt) {
-  if (evt.button === 0) {
+var onMapActivate = function (evt) {
+  if (evt.button === 0 || evt.key === Buttons.ENTER) {
     evt.preventDefault();
     onMainPinClick();
     setPinAddress(MAIN_PIN);
     renderPins(generatePinsData(PINS_COUNT));
   }
-});
 
-mainPin.addEventListener('keydown', function (evt) {
-  if (evt.key === buttonKey.ENTER) {
-    evt.preventDefault();
-    onMainPinClick();
-    setPinAddress(MAIN_PIN);
-    renderPins(generatePinsData(PINS_COUNT));
-  }
-});
+  evt.currentTarget.removeEventListener('mousedown', onMapActivate);
+  evt.currentTarget.removeEventListener('keydown', onMapActivate);
+};
+
+mainPin.addEventListener('mousedown', onMapActivate);
+
+mainPin.addEventListener('keydown', onMapActivate);
 
 var roomsList = adForm.querySelector('#room_number');
 
@@ -199,7 +200,7 @@ var guestsList = adForm.querySelector('#capacity');
 
 var validateSelect = function () {
   var currentValue = roomsList.value;
-  if (currentValue === '100') {
+  if (currentValue === ROOMS_MAX_VALUE) {
     for (var i = 0; i < guestsList.length; i++) {
       guestsList.options[i].disabled = true;
     }
@@ -207,16 +208,13 @@ var validateSelect = function () {
     guestsList.options[guestsList.length - 1].selected = true;
   } else {
     for (var j = 0; j < guestsList.length; j++) {
-      if (j < currentValue) {
-        guestsList.options[j].disabled = false;
-      } else {
-        guestsList.options[j].disabled = true;
-      }
+      guestsList.options[j].disabled = j >= currentValue;
     }
-    guestsList.options[j].selected = true;
   }
 };
 
-roomsList.addEventListener('change', function () {
-  validateSelect();
-});
+roomsList.addEventListener('change', validateSelect);
+
+setAddressValue();
+
+deactivateForm();
