@@ -14,11 +14,15 @@ var HOUSE_PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
-var COORDS = {
-  minX: 0,
-  maxX: 1150,
-  minY: 130,
-  maxY: 630
+var PRICE = {
+  MIN: '0',
+  MAX: '100000'
+};
+
+var MAP_COORDS = {
+  startX: 0,
+  startY: 130,
+  endY: 630
 };
 
 var FILE_TYPES = {
@@ -29,13 +33,15 @@ var FILE_TYPES = {
 var AVATAR_IMG = 'img/avatars/user0';
 
 var MAIN_PIN = {
-  x: 570,
-  y: 375,
   width: 65,
-  height: 65,
-  centerX: 600,
-  centerY: 405,
-  sharpEdgeY: 460
+  height: 65
+};
+
+var PIN = {
+  width: 50,
+  height: 70,
+  pointWidth: 10,
+  pointHeight: 22
 };
 
 var ROOMS_MAX_VALUE = '100';
@@ -52,6 +58,10 @@ var pinsList = map.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 var mainPin = map.querySelector('.map__pin--main');
+
+var setMainPinToCenter = function () {
+  mainPin.style.left = map.offsetWidth / 2 - Math.floor(MAIN_PIN.width / 2) + 'px';
+};
 
 var getRandomArrayIndex = function (arr) {
   return Math.floor(Math.random() * arr.length);
@@ -89,8 +99,8 @@ var generatePinsData = function (count) {
   var pins = [];
 
   for (var i = 1; i <= count; i++) {
-    var x = getRandomNumberInRange(COORDS.minX, COORDS.maxX) + 'px';
-    var y = getRandomNumberInRange(COORDS.minY, COORDS.maxY) + 'px';
+    var x = getRandomNumberInRange(MAP_COORDS.startX, map.offsetWidth - PIN.width);
+    var y = getRandomNumberInRange(MAP_COORDS.startY, MAP_COORDS.endY);
 
     pins.push({
       author: {
@@ -100,7 +110,7 @@ var generatePinsData = function (count) {
       offer: {
         title: 'Заголовок ' + i,
         address: x + ', ' + y,
-        price: getRandomNumberInRange(0, 100000),
+        price: getRandomNumberInRange(PRICE.min, PRICE.max),
         type: getRandomArrayElement(HOUSE_TYPES),
         rooms: getRandomNumberInRange(1, 6),
         guests: getRandomNumberInRange(1, 12),
@@ -112,8 +122,8 @@ var generatePinsData = function (count) {
       },
 
       location: {
-        x: x,
-        y: y
+        x: (x - PIN.width / 2) + 'px',
+        y: (y - PIN.height - PIN.pointHeight) + 'px'
       }
     });
   }
@@ -148,8 +158,8 @@ var formFieldsets = adForm.querySelectorAll('fieldset');
 
 var addressField = adForm.querySelector('#address');
 
-var setAddressValue = function () {
-  addressField.value = MAIN_PIN.centerX + ', ' + MAIN_PIN.centerY;
+var setAddressFieldValue = function () {
+  addressField.value = map.offsetWidth / 2 + ', ' + map.offsetHeight / 2;
 };
 
 var activateForm = function () {
@@ -174,15 +184,11 @@ var onMainPinClick = function () {
   activateForm();
 };
 
-var setPinAddress = function (obj) {
-  addressField.value = obj.centerX + ', ' + obj.sharpEdgeY;
-};
-
 var onMapActivate = function (evt) {
   if (evt.button === 0 || evt.key === Buttons.ENTER) {
     evt.preventDefault();
     onMainPinClick();
-    setPinAddress(MAIN_PIN);
+    setAddressFieldValue();
     renderPins(generatePinsData(PINS_COUNT));
   }
 
@@ -196,25 +202,37 @@ mainPin.addEventListener('keydown', onMapActivate);
 
 var roomsList = adForm.querySelector('#room_number');
 
-var guestsList = adForm.querySelector('#capacity');
+var guestsList = Array.from(adForm.querySelector('#capacity'));
 
 var validateSelect = function () {
   var currentValue = roomsList.value;
   if (currentValue === ROOMS_MAX_VALUE) {
-    for (var i = 0; i < guestsList.length; i++) {
-      guestsList.options[i].disabled = true;
-    }
-    guestsList.options[guestsList.length - 1].disabled = false;
-    guestsList.options[guestsList.length - 1].selected = true;
+    guestsList.forEach(function (option) {
+      option.disabled = true;
+    });
+    guestsList[guestsList.length - 1].disabled = false;
+    guestsList[guestsList.length - 1].selected = true;
   } else {
-    for (var j = 0; j < guestsList.length; j++) {
-      guestsList.options[j].disabled = j >= currentValue;
-    }
+    guestsList.forEach(function (option) {
+      var guests = option.value;
+      if (guests <= currentValue) {
+        option.disabled = false;
+      } else {
+        option.disabled = true;
+      }
+      guestsList[guestsList.length - 1].disabled = true;
+    });
   }
 };
 
 roomsList.addEventListener('change', validateSelect);
 
-setAddressValue();
+window.addEventListener('resize', function () {
+  setMainPinToCenter();
+});
 
-deactivateForm();
+window.addEventListener('load', function () {
+  setMainPinToCenter();
+  setAddressFieldValue();
+  deactivateForm();
+});
