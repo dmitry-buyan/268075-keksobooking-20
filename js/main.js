@@ -97,7 +97,7 @@ var generatePinsData = function (count) {
   var pins = [];
 
   for (var i = 1; i <= count; i++) {
-    var x = getRandomNumberInRange(MAP_COORDS.startX - PIN.width / 2, map.offsetWidth - PIN.width / 2);
+    var x = getRandomNumberInRange(MAP_COORDS.startX, map.offsetWidth);
     var y = getRandomNumberInRange(MAP_COORDS.startY, MAP_COORDS.endY);
 
     pins.push({
@@ -134,8 +134,8 @@ var renderPin = function (pins) {
 
   pinElement.querySelector('img').src = pins.author.avatar;
   pinElement.querySelector('img').alt = pins.offer.title;
-  pinTemplate.style.left = pins.location.x - PIN.width / 2 + 'px';
-  pinTemplate.style.top = pins.location.y - PIN.height / 2 + 'px';
+  pinTemplate.style.left = pins.location.x - (PIN.width / 2) + 'px';
+  pinTemplate.style.top = pins.location.y + 'px';
 
   return pinElement;
 };
