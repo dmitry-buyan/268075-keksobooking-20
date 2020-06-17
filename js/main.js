@@ -39,7 +39,9 @@ var MAIN_PIN = {
 
 var PIN = {
   width: 50,
-  height: 70
+  height: 70,
+  pointWidth: 10,
+  pointHeight: 22
 };
 
 var ROOMS_MAX_VALUE = '100';
@@ -99,7 +101,7 @@ var generatePinsData = function (count) {
   var pins = [];
 
   for (var i = 1; i <= count; i++) {
-    var x = getRandomNumberInRange(MAP_COORDS.startX, map.offsetWidth);
+    var x = getRandomNumberInRange(MAP_COORDS.startX, map.offsetWidth - PIN.width);
     var y = getRandomNumberInRange(MAP_COORDS.startY, MAP_COORDS.endY);
 
     pins.push({
@@ -122,8 +124,8 @@ var generatePinsData = function (count) {
       },
 
       location: {
-        x: x,
-        y: y
+        x: (x - PIN.width / 2) + 'px',
+        y: (y - PIN.height - PIN.pointHeight) + 'px'
       }
     });
   }
@@ -136,8 +138,8 @@ var renderPin = function (pins) {
 
   pinElement.querySelector('img').src = pins.author.avatar;
   pinElement.querySelector('img').alt = pins.offer.title;
-  pinTemplate.style.left = pins.location.x - (PIN.width / 2) + 'px';
-  pinTemplate.style.top = pins.location.y + 'px';
+  pinTemplate.style.left = pins.location.x;
+  pinTemplate.style.top = pins.location.y;
 
   return pinElement;
 };
