@@ -1,38 +1,15 @@
 'use strict';
 
 (function () {
-  var PRICE = {
-    MIN: '0',
-    MAX: '100000'
-  };
-
-  var MAP_COORDS = {
-    startX: 0,
-    startY: 130,
-    endY: 630
-  };
-
-  var FILE_TYPES = {
-    'png': '.png',
-    'jpg': '.jpg'
-  };
-
-  var AVATAR_IMG = 'img/avatars/user0';
-
   var MAIN_PIN = {
     width: 65,
     height: 65
   };
 
-  var PIN = {
-    width: 50,
-    height: 70,
-    pointWidth: 10,
-    pointHeight: 22
-  };
-
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
+  var pinsList = map.querySelector('.map__pins');
+  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
   var setMainPinToCenter = function () {
     mainPin.style.left = map.offsetWidth / 2 - Math.floor(MAIN_PIN.width / 2) + 'px';
@@ -70,40 +47,25 @@
     return clonedArray;
   };
 
-  window.pin.generatePinsData = function (count) {
-    var pins = [];
+  var renderPin = function (pins) {
+    var pinElement = pinTemplate.cloneNode(true);
 
-    for (var i = 1; i <= count; i++) {
-      var x = getRandomNumberInRange(MAP_COORDS.startX, map.offsetWidth - PIN.width);
-      var y = getRandomNumberInRange(MAP_COORDS.startY, MAP_COORDS.endY);
+    pinElement.querySelector('img').src = pins.author.avatar;
+    pinElement.querySelector('img').alt = pins.offer.title;
+    pinTemplate.style.left = pins.location.x;
+    pinTemplate.style.top = pins.location.y;
 
-      pins.push({
-        author: {
-          avatar: AVATAR_IMG + i + FILE_TYPES.png
-        },
+    return pinElement;
+  };
 
-        offer: {
-          title: 'Заголовок ' + i,
-          address: x + ', ' + y,
-          price: getRandomNumberInRange(PRICE.min, PRICE.max),
-          type: getRandomArrayElement(window.data.HOUSE_TYPES),
-          rooms: getRandomNumberInRange(1, 6),
-          guests: getRandomNumberInRange(1, 12),
-          checkin: getRandomArrayElement(window.data.TIMES),
-          checkout: getRandomArrayElement(window.data.TIMES),
-          features: getRandomSubArray(window.data.HOUSE_FEATURES),
-          description: 'строка с описанием',
-          photos: getRandomSubArray(shuffleArray(window.data.HOUSE_PHOTOS))
-        },
+  var renderPins = function (pins) {
+    var fragment = document.createDocumentFragment();
 
-        location: {
-          x: (x - PIN.width / 2) + 'px',
-          y: (y - PIN.height - PIN.pointHeight) + 'px'
-        }
-      });
+    for (var i = 0; i < pins.length; i++) {
+      fragment.appendChild(renderPin(pins[i]));
     }
 
-    return pins;
+    pinsList.appendChild(fragment);
   };
 
   window.addEventListener('resize', setMainPinToCenter);
@@ -113,4 +75,12 @@
     window.form.setAddressFieldValue();
     window.form.deactivateForm();
   });
+
+  window.pin = {
+    getRandomArrayElement: getRandomArrayElement,
+    getRandomSubArray: getRandomSubArray,
+    getRandomNumberInRange: getRandomNumberInRange,
+    shuffleArray: shuffleArray,
+    renderPins: renderPins
+  };
 })();

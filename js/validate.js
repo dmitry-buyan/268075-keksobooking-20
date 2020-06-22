@@ -53,7 +53,8 @@
     }
   };
 
-  roomsNumber.addEventListener('change', validateRooms);
-
-  guestsNumber.addEventListener('change', validateGuests);
+  window.validate = {
+    validateRooms: validateRooms,
+    validateGuests: validateGuests
+  };
 })();

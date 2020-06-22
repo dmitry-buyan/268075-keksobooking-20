@@ -5,6 +5,8 @@
   var adForm = document.querySelector('.ad-form');
   var formFieldsets = adForm.querySelectorAll('fieldset');
   var addressField = adForm.querySelector('#address');
+  var roomsNumber = adForm.querySelector('#room_number');
+  var guestsNumber = adForm.querySelector('#capacity');
 
   var setAddressFieldValue = function () {
     addressField.value = map.offsetWidth / 2 + ', ' + map.offsetHeight / 2;
@@ -25,6 +27,9 @@
       }
     }
   };
+
+  roomsNumber.addEventListener('change', window.validate.validateRooms);
+  guestsNumber.addEventListener('change', window.validate.validateGuests);
 
   window.form = {
     setAddressFieldValue: setAddressFieldValue,
