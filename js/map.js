@@ -5,8 +5,6 @@
 
   var BUTTON_LEFT = 0;
 
-  var PINS_COUNT = 8;
-
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
   var adForm = document.querySelector('.ad-form');
@@ -19,9 +17,9 @@
   var onMapActivate = function (evt) {
     if (evt.key === ENTER || evt.button === BUTTON_LEFT) {
       activateMap();
+      window.load(window.pin.onSuccess, window.pin.onError);
       window.form.activateForm();
       window.form.setAddressFieldValue();
-      window.pin.renderPins(window.data.generatePinsData(PINS_COUNT));
     }
 
     mainPin.removeEventListener('mousedown', onMapActivate);

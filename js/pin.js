@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var MAX_PINS_COUNT = 8;
+
   var MAIN_PIN = {
     width: 65,
     height: 65
@@ -15,57 +17,35 @@
     mainPin.style.left = map.offsetWidth / 2 - Math.floor(MAIN_PIN.width / 2) + 'px';
   };
 
-  var getRandomArrayIndex = function (arr) {
-    return Math.floor(Math.random() * arr.length);
-  };
-
-  var getRandomArrayElement = function (arr) {
-    var value = getRandomArrayIndex(arr);
-    return arr[value];
-  };
-
-  var getRandomSubArray = function (arr) {
-    var start = getRandomArrayIndex(arr);
-    var end = getRandomArrayIndex(arr);
-    return arr.slice(start, end);
-  };
-
-  var getRandomNumberInRange = function (min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
-  };
-
-  var shuffleArray = function (arr) {
-    var clonedArray = arr.slice();
-
-    for (var i = clonedArray.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = clonedArray[i];
-      clonedArray[i] = clonedArray[j];
-      clonedArray[j] = temp;
-    }
-
-    return clonedArray;
-  };
-
-  var renderPin = function (pins) {
+  var renderPin = function (pin) {
     var pinElement = pinTemplate.cloneNode(true);
 
-    pinElement.querySelector('img').src = pins.author.avatar;
-    pinElement.querySelector('img').alt = pins.offer.title;
-    pinTemplate.style.left = pins.location.x;
-    pinTemplate.style.top = pins.location.y;
+    pinElement.querySelector('img').src = pin.author.avatar;
+    pinElement.querySelector('img').alt = pin.offer.title;
+    pinTemplate.style.left = pin.location.x + 'px';
+    pinTemplate.style.top = pin.location.y + 'px';
 
     return pinElement;
   };
 
-  var renderPins = function (pins) {
+  var onSuccess = function (pins) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < pins.length; i++) {
+    for (var i = 0; i < MAX_PINS_COUNT; i++) {
       fragment.appendChild(renderPin(pins[i]));
     }
 
     pinsList.appendChild(fragment);
+  };
+
+  var onError = function (message) {
+    var node = document.createElement('div');
+    var errorText = document.createElement('p');
+    node.classList.add('error');
+    errorText.textContent = message;
+    errorText.classList.add('error__message');
+    node.appendChild(errorText);
+    document.body.insertAdjacentElement('afterbegin', node);
   };
 
   window.addEventListener('resize', setMainPinToCenter);
@@ -77,10 +57,7 @@
   });
 
   window.pin = {
-    getRandomArrayElement: getRandomArrayElement,
-    getRandomSubArray: getRandomSubArray,
-    getRandomNumberInRange: getRandomNumberInRange,
-    shuffleArray: shuffleArray,
-    renderPins: renderPins
+    onSuccess: onSuccess,
+    onError: onError
   };
 })();
