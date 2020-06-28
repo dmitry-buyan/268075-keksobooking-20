@@ -57,6 +57,7 @@
   });
 
   window.pin = {
+    MAX_PINS_COUNT: MAX_PINS_COUNT,
     onSuccess: onSuccess,
     onError: onError
   };
