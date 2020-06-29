@@ -40,7 +40,7 @@
 
   var map = document.querySelector('.map');
 
-  var generatePinsData = function (count) {
+  var generateData = function (count) {
     var pins = [];
 
     for (var i = 1; i <= count; i++) {
@@ -81,6 +81,6 @@
     TIMES: TIMES,
     HOUSE_FEATURES: HOUSE_FEATURES,
     HOUSE_PHOTOS: HOUSE_PHOTOS,
-    generatePinsData: generatePinsData
+    generateData: generateData
   };
 })();

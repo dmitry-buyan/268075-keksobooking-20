@@ -1,9 +1,8 @@
 'use strict';
 
 (function () {
-  var PRICE_TEXT = '₽/ночь';
-
   var TextLines = {
+    PRICE: '₽/ночь',
     ROOMS: ' комнаты для ',
     GUESTS: ' гостей',
     CHECKIN: 'Заезд после ',
@@ -24,13 +23,21 @@
   var renderCard = function (card) {
     var cardElement = cardTemplate.cloneNode(true);
 
+    cardElement.querySelector('.popup__avatar').src = card.author.avatar;
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
-    cardElement.querySelector('.popup__text--price').textContent = card.offer.price + PRICE_TEXT;
+    cardElement.querySelector('.popup__text--price').textContent = card.offer.price + TextLines.PRICE;
     cardElement.querySelector('.popup__type').textContent = valueToAnotherValue[card.offer.type];
     cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + TextLines.ROOMS + card.offer.guests + TextLines.GUESTS;
     cardElement.querySelector('.popup__text--time').textContent = TextLines.CHECKIN + card.offer.checkin + TextLines.CHECKOUT + card.offer.checkout;
-    // cardElement.querySelectorAll('.popup__feature').textContent = card.offer.features;
+    cardElement.querySelector('.popup__description').textContent = card.offer.description;
+    cardElement.querySelector('.popup__photo').src = card.offer.photos[0];
+
+    for (var i = 1; i < card.offer.photos.length; i++) {
+      var node = cardElement.querySelector('.popup__photo').cloneNode(true);
+      node.src = card.offer.photos[i];
+      cardElement.querySelector('.popup__photos').appendChild(node);
+    }
 
     return cardElement;
   };
