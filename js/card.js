@@ -32,12 +32,19 @@
     cardElement.querySelector('.popup__text--time').textContent = TextLines.CHECKIN + card.offer.checkin + TextLines.CHECKOUT + card.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = card.offer.description;
     cardElement.querySelector('.popup__photo').src = card.offer.photos[0];
+    cardTemplate.style.left = card.location.x + 'px';
+    cardTemplate.style.top = card.location.y + 'px';
+
+    var fragment = document.createDocumentFragment();
 
     for (var i = 1; i < card.offer.photos.length; i++) {
       var node = cardElement.querySelector('.popup__photo').cloneNode(true);
       node.src = card.offer.photos[i];
-      cardElement.querySelector('.popup__photos').appendChild(node);
+
+      fragment.appendChild(node);
     }
+
+    cardElement.querySelector('.popup__photos').appendChild(fragment);
 
     return cardElement;
   };
