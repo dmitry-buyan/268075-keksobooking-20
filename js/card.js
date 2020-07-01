@@ -35,6 +35,18 @@
     cardTemplate.style.left = card.location.x + 'px';
     cardTemplate.style.top = card.location.y + 'px';
 
+    var featuresList = cardTemplate.querySelectorAll('.popup__feature');
+
+    card.offer.features.forEach(function (it) {
+      featuresList.forEach(function (item) {
+        if (item.classList.contains('popup__feature--' + it)) {
+          item.textContent = it;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    });
+
     var fragment = document.createDocumentFragment();
 
     for (var i = 1; i < card.offer.photos.length; i++) {
