@@ -49,24 +49,19 @@
     return fragment;
   };
 
-  var featuresList = cardTemplate.querySelector('.popup__features');
-
-  var removeFeaturesChildren = function () {
-    featuresList.innerHTML = '';
+  var removeFeatures = function () {
+    cardTemplate.querySelector('.popup__features').remove();
   };
 
   var renderFeatures = function (arr) {
     var fragment = document.createDocumentFragment();
+    var list = document.createElement('ul');
 
     arr.forEach(function (it) {
-      if (it.length > 0) {
-        var node = document.createElement('li');
-        node.classList.add(FEATURE_CLASS_NAME, FEATURE_CLASS_NAME + '--' + it);
-        featuresList.appendChild(node);
-        fragment.appendChild(node);
-      } else {
-        featuresList.classList.add('hidden');
-      }
+      var feature = document.createElement('li');
+      feature.classList.add(FEATURE_CLASS_NAME, FEATURE_CLASS_NAME + '--' + it);
+      list.appendChild(feature);
+      fragment.appendChild(list);
     });
 
     return fragment;
@@ -108,5 +103,5 @@
     onSuccess: onSuccess
   };
 
-  removeFeaturesChildren();
+  removeFeatures();
 })();
