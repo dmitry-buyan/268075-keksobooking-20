@@ -49,26 +49,33 @@
     return fragment;
   };
 
-  var removeFeatures = function () {
-    cardTemplate.querySelector('.popup__features').remove();
-  };
-
   var renderFeatures = function (arr) {
     var fragment = document.createDocumentFragment();
-    var list = document.createElement('ul');
 
     arr.forEach(function (it) {
       var feature = document.createElement('li');
+      feature.textContent = it;
       feature.classList.add(FEATURE_CLASS_NAME, FEATURE_CLASS_NAME + '--' + it);
-      list.appendChild(feature);
-      fragment.appendChild(list);
+      fragment.appendChild(feature);
     });
 
     return fragment;
   };
 
+  var renderData = function (arr, node, cb) {
+    if (arr && arr.length > 0) {
+      node.appendChild(cb(arr));
+    } else {
+      node.remove();
+    }
+  };
+
   var renderCard = function (card) {
     var cardElement = cardTemplate.cloneNode(true);
+    var featuresList = cardElement.querySelector('.popup__features');
+    while (featuresList.firstChild) {
+      featuresList.removeChild(featuresList.firstChild);
+    }
 
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
@@ -81,8 +88,8 @@
     cardTemplate.style.left = card.location.x + 'px';
     cardTemplate.style.top = card.location.y + 'px';
 
-    cardElement.querySelector('.popup__features').appendChild(renderFeatures(card.offer.features));
-    cardElement.querySelector('.popup__photos').appendChild(renderCardPhotos(card.offer.photos));
+    renderData(card.offer.features, cardElement.querySelector('.popup__features'), renderFeatures);
+    renderData(card.offer.photos, cardElement.querySelector('.popup__photos'), renderCardPhotos);
 
     return cardElement;
   };
@@ -102,6 +109,4 @@
   window.card = {
     onSuccess: onSuccess
   };
-
-  removeFeatures();
 })();
