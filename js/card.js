@@ -26,8 +26,6 @@
   };
 
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-  var map = document.querySelector('.map');
-  var pinsList = map.querySelector('.map__pins');
   var photosContainer = cardTemplate.querySelector('.popup__photos');
   photosContainer.querySelector('.popup__photo').remove();
 
@@ -70,14 +68,27 @@
     }
   };
 
+  var removeChildNodes = function (parent) {
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+    }
+  };
+
+  var checkUserAvatar = function (data, node) {
+    if (data) {
+      node.src = data;
+    } else {
+      node.remove();
+    }
+  };
+
   var renderCard = function (card) {
     var cardElement = cardTemplate.cloneNode(true);
     var featuresList = cardElement.querySelector('.popup__features');
-    while (featuresList.firstChild) {
-      featuresList.removeChild(featuresList.firstChild);
-    }
 
-    cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+    removeChildNodes(featuresList);
+    checkUserAvatar(card.author.avatar, cardElement.querySelector('.popup__avatar'));
+
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = card.offer.price + TextLines.PRICE;
@@ -85,8 +96,6 @@
     cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + TextLines.ROOMS + card.offer.guests + TextLines.GUESTS;
     cardElement.querySelector('.popup__text--time').textContent = TextLines.CHECKIN + card.offer.checkin + TextLines.CHECKOUT + card.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = card.offer.description;
-    cardTemplate.style.left = card.location.x + 'px';
-    cardTemplate.style.top = card.location.y + 'px';
 
     renderData(card.offer.features, cardElement.querySelector('.popup__features'), renderFeatures);
     renderData(card.offer.photos, cardElement.querySelector('.popup__photos'), renderCardPhotos);
@@ -101,10 +110,8 @@
       fragment.appendChild(renderCard(cards[i]));
     }
 
-    pinsList.appendChild(fragment);
+    document.querySelector('.map__filters-container').before(fragment);
   };
-
-  window.load(onSuccess);
 
   window.card = {
     onSuccess: onSuccess

@@ -26,6 +26,8 @@
     mainPin.removeEventListener('keydown', onMapActivate);
   };
 
+  window.load(window.card.onSuccess);
+
   mainPin.addEventListener('mousedown', onMapActivate);
   mainPin.addEventListener('keydown', onMapActivate);
 })();
