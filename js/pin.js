@@ -28,7 +28,7 @@
     return pinElement;
   };
 
-  var onSuccess = function (pins) {
+  var renderPins = function (pins) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < MAX_PINS_COUNT; i++) {
@@ -36,6 +36,11 @@
     }
 
     pinsList.appendChild(fragment);
+  };
+
+  var onSuccess = function (data) {
+    renderPins(data);
+    window.renderCards(data);
   };
 
   var onError = function (message) {

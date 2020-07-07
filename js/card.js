@@ -103,7 +103,7 @@
     return cardElement;
   };
 
-  var onSuccess = function (cards) {
+  window.renderCards = function (cards) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < window.pin.MAX_PINS_COUNT; i++) {
@@ -111,9 +111,5 @@
     }
 
     document.querySelector('.map__filters-container').before(fragment);
-  };
-
-  window.card = {
-    onSuccess: onSuccess
   };
 })();
