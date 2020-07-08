@@ -40,7 +40,7 @@
 
   var onSuccess = function (data) {
     renderPins(data);
-    window.renderCards(data);
+    window.card.renderCards(data);
   };
 
   var onError = function (message) {
