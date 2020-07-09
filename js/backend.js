@@ -11,7 +11,7 @@
 
   var JSON_TYPE = 'json';
 
-  var HTTP_METHODS = {
+  var HttpMethods = {
     GET: 'GET',
     POST: 'POST'
   };
@@ -40,7 +40,7 @@
 
     xhr.timeout = MAX_TIMEOUT;
 
-    xhr.open(HTTP_METHODS.GET, URL);
+    xhr.open(HttpMethods.GET, URL);
     xhr.send();
   };
 })();
