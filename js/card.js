@@ -80,6 +80,7 @@
 
   var renderCard = function (card) {
     var cardElement = cardTemplate.cloneNode(true);
+    cardElement.classList.add('hidden');
     var featuresList = cardElement.querySelector('.popup__features');
 
     removeChildNodes(featuresList);
@@ -109,7 +110,7 @@
       cardElement.querySelector('.popup__type').remove();
     }
 
-    if (card.offer.room && card.offer.guests) {
+    if (card.offer.rooms && card.offer.guests) {
       cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + TextLines.ROOMS + card.offer.guests + TextLines.GUESTS;
     } else {
       cardElement.querySelector('.popup__text--capacity').remove();
@@ -130,20 +131,24 @@
     renderData(card.offer.features, cardElement.querySelector('.popup__features'), renderFeatures);
     renderData(card.offer.photos, cardElement.querySelector('.popup__photos'), renderCardPhotos);
 
-    return cardElement;
+    document.querySelector('.map__filters-container').before(cardElement);
+
+    // return cardElement;
   };
+
 
   var renderCards = function (cards) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < window.pin.MAX_PINS_COUNT; i++) {
-      fragment.appendChild(renderCard(cards[i]));
+      fragment.appendChild(renderCard(cards[0]));
     }
 
-    document.querySelector('.map__filters-container').before(fragment);
+    document.querySelector('.map__filters-container').before(renderCard(cards[i]));
   };
 
   window.card = {
+    renderCard: renderCard,
     renderCards: renderCards
   };
 })();
