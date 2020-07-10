@@ -2,16 +2,10 @@
 
 (function () {
   var userCard = window.card.renderCard();
-  var setupOpen = document.querySelector('.setup-open');
-  var setupClose = userSetup.querySelector('.setup-close');
-  var userName = userSetup.querySelector('.setup-user-name');
+  var cardClose = userCard.querySelector('.popup__close');
 
   var onPopupEscPress = function (evt) {
-    if (document.activeElement === userName) {
-      window.util.isEscEvent(evt, openPopup);
-    } else {
-      window.util.isEscEvent(evt, closePopup);
-    }
+    window.util.isEscEvent(evt, closePopup);
   };
 
   var openPopup = function () {
@@ -20,20 +14,12 @@
   };
 
   var closePopup = function () {
-    userSetup.classList.add('hidden');
+    userCard.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
-  setupOpen.addEventListener('click', openPopup);
-
-  setupOpen.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, openPopup);
-  });
-
-  setupClose.addEventListener('click', closePopup);
-
-  setupClose.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, closePopup);
+  cardClose.addEventListener('click', function () {
+    closePopup();
   });
 
   window.popup = {
