@@ -5,9 +5,105 @@
 
   var GUESTS_MIN_VALUE = '0';
 
+  var HomeType = {
+    BUNGALO: 'bungalo',
+    FLAT: 'flat',
+    HOUSE: 'house',
+    PALACE: 'palace'
+  };
+
+  var HomeMinPrice = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000
+  };
+
   var adForm = document.querySelector('.ad-form');
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
+  var priceField = adForm.querySelector('#price');
+  var homeType = adForm.querySelector('#type');
+
+  var validateHomeTypes = function () {
+    switch (homeType.value) {
+      case HomeType.FLAT:
+        priceField.setAttribute('min', HomeMinPrice.FLAT);
+        priceField.placeholder = HomeMinPrice.FLAT;
+        priceField.value = '';
+        break;
+      case HomeType.HOUSE:
+        priceField.setAttribute('min', HomeMinPrice.HOUSE);
+        priceField.placeholder = HomeMinPrice.HOUSE;
+        priceField.value = '';
+        break;
+      case HomeType.PALACE:
+        priceField.setAttribute('min', HomeMinPrice.PALACE);
+        priceField.placeholder = HomeMinPrice.PALACE;
+        priceField.value = '';
+        break;
+      default:
+        priceField.setAttribute('min', HomeMinPrice.BUNGALO);
+        priceField.placeholder = HomeMinPrice.BUNGALO;
+        priceField.value = '';
+        break;
+    }
+  };
+
+  var validatePrice = function () {
+    var homeTypeList = Array.from(homeType);
+    var currentValue = priceField.value;
+
+    if (currentValue < HomeMinPrice.FLAT) {
+      homeTypeList.forEach(function (option) {
+        option.disabled = true;
+        if (option.value === HomeType.BUNGALO) {
+          option.selected = true;
+          option.disabled = false;
+        }
+      });
+    } else if (currentValue < HomeMinPrice.HOUSE) {
+      homeTypeList.forEach(function (option) {
+        option.disabled = true;
+        if (option.value === HomeType.FLAT) {
+          option.selected = true;
+          option.disabled = false;
+        }
+      });
+    } else if (currentValue < HomeMinPrice.PALACE) {
+      homeTypeList.forEach(function (option) {
+        option.disabled = true;
+        if (option.value === HomeType.HOUSE) {
+          option.selected = true;
+          option.disabled = false;
+        }
+      });
+    } else if (currentValue >= HomeMinPrice.FLAT && currentValue < HomeMinPrice.HOUSE) {
+      homeTypeList.forEach(function (option) {
+        option.disabled = true;
+        if (option.value === HomeType.FLAT) {
+          option.selected = true;
+          option.disabled = false;
+        }
+      });
+    } else if (currentValue >= HomeMinPrice.HOUSE && currentValue < HomeMinPrice.PALACE) {
+      homeTypeList.forEach(function (option) {
+        option.disabled = true;
+        if (option.value === HomeType.HOUSE) {
+          option.selected = true;
+          option.disabled = false;
+        }
+      });
+    } else if (currentValue >= HomeMinPrice.PALACE) {
+      homeTypeList.forEach(function (option) {
+        option.disabled = true;
+        if (option.value === HomeType.PALACE) {
+          option.selected = true;
+          option.disabled = false;
+        }
+      });
+    }
+  };
 
   var validateRooms = function () {
     var guestsList = Array.from(guestsNumber);
@@ -54,6 +150,8 @@
   };
 
   window.validate = {
+    validateHomeTypes: validateHomeTypes,
+    validatePrice: validatePrice,
     validateRooms: validateRooms,
     validateGuests: validateGuests
   };

@@ -144,8 +144,8 @@
   };
 
   window.card = {
+    // homeTypesTranslation: homeTypesTranslation,
     renderCard: renderCard,
     renderCardData: renderCardData
   };
-
 })();

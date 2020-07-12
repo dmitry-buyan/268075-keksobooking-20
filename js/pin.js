@@ -28,7 +28,9 @@
     pinElement.addEventListener('click', function (evt) {
       window.card.renderCardData(pin);
       window.popup.openPopup();
-      evt.currentTarget.setAttribute('disabled', 'disabled');
+      if (document.activeElement === evt.target) {
+        evt.currentTarget.setAttribute('disabled', 'disabled');
+      }
     });
 
     return pinElement;

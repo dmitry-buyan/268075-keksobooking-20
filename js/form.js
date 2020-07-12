@@ -7,6 +7,8 @@
   var addressField = adForm.querySelector('#address');
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
+  var homeType = adForm.querySelector('#type');
+  var priceField = adForm.querySelector('#price');
 
   var setAddressFieldValue = function () {
     addressField.value = map.offsetWidth / 2 + ', ' + map.offsetHeight / 2;
@@ -28,8 +30,21 @@
     }
   };
 
-  roomsNumber.addEventListener('change', window.validate.validateRooms);
-  guestsNumber.addEventListener('change', window.validate.validateGuests);
+  roomsNumber.addEventListener('change', function () {
+    window.validate.validateRooms();
+  });
+
+  guestsNumber.addEventListener('change', function () {
+    window.validate.validateGuests();
+  });
+
+  homeType.addEventListener('change', function () {
+    window.validate.validateHomeTypes();
+  });
+
+  priceField.addEventListener('input', function () {
+    window.validate.validatePrice();
+  });
 
   window.form = {
     setAddressFieldValue: setAddressFieldValue,
