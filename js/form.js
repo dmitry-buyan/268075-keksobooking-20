@@ -33,23 +33,27 @@
   };
 
   roomsNumber.addEventListener('change', function () {
-    window.validate.validateRooms();
+    window.validate.onRoomsChange();
   });
 
   guestsNumber.addEventListener('change', function () {
-    window.validate.validateGuests();
+    window.validate.onGuestsChange();
   });
 
   homeType.addEventListener('change', function () {
-    window.validate.validateHomeTypes();
+    window.validate.onHomeTypeChange();
   });
 
   priceField.addEventListener('input', function () {
-    window.validate.validatePrice();
+    window.validate.onPriceInput();
   });
 
-  timeIn.addEventListener('change', function () {
-    window.validate.validateTime();
+  timeIn.addEventListener('change', function (evt) {
+    timeOut.value = evt.target.value;
+  });
+
+  timeOut.addEventListener('change', function (evt) {
+    timeIn.value = evt.target.value;
   });
 
   window.form = {

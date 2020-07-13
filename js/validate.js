@@ -25,7 +25,7 @@
   var priceField = adForm.querySelector('#price');
   var homeType = adForm.querySelector('#type');
 
-  var validateHomeTypes = function () {
+  var onHomeTypeChange = function () {
     switch (homeType.value) {
       case HomeType.FLAT:
         priceField.setAttribute('min', HomeMinPrice.FLAT);
@@ -50,7 +50,7 @@
     }
   };
 
-  var validatePrice = function () {
+  var onPriceInput = function () {
     var homeTypeList = Array.from(homeType);
     var currentValue = priceField.value;
 
@@ -105,13 +105,7 @@
     }
   };
 
-  var validateTime = function () {
-    var timeIn = Array.from(adForm.querySelector('#timein'));
-    var timeOut = Array.from(adForm.querySelector('#timeout'));
-
-  };
-
-  var validateRooms = function () {
+  var onRoomsChange = function () {
     var guestsList = Array.from(guestsNumber);
     var currentValue = roomsNumber.value;
     if (currentValue === ROOMS_MAX_VALUE) {
@@ -133,7 +127,7 @@
     }
   };
 
-  var validateGuests = function () {
+  var onGuestsChange = function () {
     var roomsList = Array.from(roomsNumber);
     var currentValue = guestsNumber.value;
     if (currentValue === GUESTS_MIN_VALUE) {
@@ -156,10 +150,9 @@
   };
 
   window.validate = {
-    validateHomeTypes: validateHomeTypes,
-    validatePrice: validatePrice,
-    validateTime: validateTime,
-    validateRooms: validateRooms,
-    validateGuests: validateGuests
+    onHomeTypeChange: onHomeTypeChange,
+    onPriceInput: onPriceInput,
+    onRoomsChange: onRoomsChange,
+    onGuestsChange: onGuestsChange
   };
 })();
