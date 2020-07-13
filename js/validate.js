@@ -105,6 +105,12 @@
     }
   };
 
+  var validateTime = function () {
+    var timeIn = Array.from(adForm.querySelector('#timein'));
+    var timeOut = Array.from(adForm.querySelector('#timeout'));
+
+  };
+
   var validateRooms = function () {
     var guestsList = Array.from(guestsNumber);
     var currentValue = roomsNumber.value;
@@ -152,6 +158,7 @@
   window.validate = {
     validateHomeTypes: validateHomeTypes,
     validatePrice: validatePrice,
+    validateTime: validateTime,
     validateRooms: validateRooms,
     validateGuests: validateGuests
   };

@@ -9,6 +9,8 @@
   var guestsNumber = adForm.querySelector('#capacity');
   var homeType = adForm.querySelector('#type');
   var priceField = adForm.querySelector('#price');
+  var timeIn = adForm.querySelector('#timein');
+  var timeOut = adForm.querySelector('#timeout');
 
   var setAddressFieldValue = function () {
     addressField.value = map.offsetWidth / 2 + ', ' + map.offsetHeight / 2;
@@ -44,6 +46,10 @@
 
   priceField.addEventListener('input', function () {
     window.validate.validatePrice();
+  });
+
+  timeIn.addEventListener('change', function () {
+    window.validate.validateTime();
   });
 
   window.form = {
