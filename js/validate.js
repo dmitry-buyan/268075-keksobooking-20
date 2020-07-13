@@ -5,6 +5,25 @@
 
   var GUESTS_MIN_VALUE = '0';
 
+  var APPARTMENTS = [
+    {
+      name: 'bungalo',
+      minPrice: 0
+    },
+    {
+      name: 'flat',
+      minPrice: 1000
+    },
+    {
+      name: 'house',
+      minPrice: 5000
+    },
+    {
+      name: 'palace',
+      minPrice: 10000
+    }
+  ];
+
   var HomeType = {
     BUNGALO: 'bungalo',
     FLAT: 'flat',
@@ -22,32 +41,17 @@
   var adForm = document.querySelector('.ad-form');
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
-  var priceField = adForm.querySelector('#price');
   var homeType = adForm.querySelector('#type');
+  var priceField = adForm.querySelector('#price');
 
   var onHomeTypeChange = function () {
-    switch (homeType.value) {
-      case HomeType.FLAT:
-        priceField.setAttribute('min', HomeMinPrice.FLAT);
-        priceField.placeholder = HomeMinPrice.FLAT;
+    APPARTMENTS.forEach(function (it) {
+      if (it.name === homeType.value) {
+        priceField.setAttribute('min', it.minPrice);
+        priceField.placeholder = it.minPrice;
         priceField.value = '';
-        break;
-      case HomeType.HOUSE:
-        priceField.setAttribute('min', HomeMinPrice.HOUSE);
-        priceField.placeholder = HomeMinPrice.HOUSE;
-        priceField.value = '';
-        break;
-      case HomeType.PALACE:
-        priceField.setAttribute('min', HomeMinPrice.PALACE);
-        priceField.placeholder = HomeMinPrice.PALACE;
-        priceField.value = '';
-        break;
-      default:
-        priceField.setAttribute('min', HomeMinPrice.BUNGALO);
-        priceField.placeholder = HomeMinPrice.BUNGALO;
-        priceField.value = '';
-        break;
-    }
+      }
+    });
   };
 
   var onPriceInput = function () {
@@ -122,6 +126,9 @@
         } else {
           option.disabled = true;
         }
+        if (currentValue === option.value) {
+          option.selected = true;
+        }
         guestsList[guestsList.length - 1].disabled = true;
       });
     }
@@ -143,6 +150,9 @@
           option.disabled = false;
         } else {
           option.disabled = true;
+        }
+        if (currentValue === option.value) {
+          option.selected = true;
         }
         roomsList[roomsList.length - 1].disabled = true;
       });
