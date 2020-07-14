@@ -8,7 +8,6 @@
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
   var homeType = adForm.querySelector('#type');
-  var priceField = adForm.querySelector('#price');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
 
@@ -42,10 +41,6 @@
 
   homeType.addEventListener('change', function () {
     window.validate.onHomeTypeChange();
-  });
-
-  priceField.addEventListener('input', function () {
-    window.validate.onPriceInput();
   });
 
   timeIn.addEventListener('change', function (evt) {

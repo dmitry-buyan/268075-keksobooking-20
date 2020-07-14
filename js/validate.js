@@ -24,20 +24,6 @@
     }
   ];
 
-  var HomeType = {
-    BUNGALO: 'bungalo',
-    FLAT: 'flat',
-    HOUSE: 'house',
-    PALACE: 'palace'
-  };
-
-  var HomeMinPrice = {
-    BUNGALO: 0,
-    FLAT: 1000,
-    HOUSE: 5000,
-    PALACE: 10000
-  };
-
   var adForm = document.querySelector('.ad-form');
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
@@ -54,60 +40,6 @@
     });
   };
 
-  var onPriceInput = function () {
-    var homeTypeList = Array.from(homeType);
-    var currentValue = priceField.value;
-
-    if (currentValue < HomeMinPrice.FLAT) {
-      homeTypeList.forEach(function (option) {
-        option.disabled = true;
-        if (option.value === HomeType.BUNGALO) {
-          option.selected = true;
-          option.disabled = false;
-        }
-      });
-    } else if (currentValue < HomeMinPrice.HOUSE) {
-      homeTypeList.forEach(function (option) {
-        option.disabled = true;
-        if (option.value === HomeType.FLAT) {
-          option.selected = true;
-          option.disabled = false;
-        }
-      });
-    } else if (currentValue < HomeMinPrice.PALACE) {
-      homeTypeList.forEach(function (option) {
-        option.disabled = true;
-        if (option.value === HomeType.HOUSE) {
-          option.selected = true;
-          option.disabled = false;
-        }
-      });
-    } else if (currentValue >= HomeMinPrice.FLAT && currentValue < HomeMinPrice.HOUSE) {
-      homeTypeList.forEach(function (option) {
-        option.disabled = true;
-        if (option.value === HomeType.FLAT) {
-          option.selected = true;
-          option.disabled = false;
-        }
-      });
-    } else if (currentValue >= HomeMinPrice.HOUSE && currentValue < HomeMinPrice.PALACE) {
-      homeTypeList.forEach(function (option) {
-        option.disabled = true;
-        if (option.value === HomeType.HOUSE) {
-          option.selected = true;
-          option.disabled = false;
-        }
-      });
-    } else if (currentValue >= HomeMinPrice.PALACE) {
-      homeTypeList.forEach(function (option) {
-        option.disabled = true;
-        if (option.value === HomeType.PALACE) {
-          option.selected = true;
-          option.disabled = false;
-        }
-      });
-    }
-  };
 
   var onRoomsChange = function () {
     var guestsList = Array.from(guestsNumber);
@@ -161,7 +93,6 @@
 
   window.validate = {
     onHomeTypeChange: onHomeTypeChange,
-    onPriceInput: onPriceInput,
     onRoomsChange: onRoomsChange,
     onGuestsChange: onGuestsChange
   };
