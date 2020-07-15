@@ -5,11 +5,43 @@
 
   var GUESTS_MIN_VALUE = '0';
 
+  var APPARTMENTS = [
+    {
+      name: 'bungalo',
+      minPrice: 0
+    },
+    {
+      name: 'flat',
+      minPrice: 1000
+    },
+    {
+      name: 'house',
+      minPrice: 5000
+    },
+    {
+      name: 'palace',
+      minPrice: 10000
+    }
+  ];
+
   var adForm = document.querySelector('.ad-form');
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
+  var homeType = adForm.querySelector('#type');
+  var priceField = adForm.querySelector('#price');
 
-  var validateRooms = function () {
+  var onHomeTypeChange = function () {
+    APPARTMENTS.forEach(function (it) {
+      if (it.name === homeType.value) {
+        priceField.setAttribute('min', it.minPrice);
+        priceField.placeholder = it.minPrice;
+        priceField.value = '';
+      }
+    });
+  };
+
+
+  var onRoomsChange = function () {
     var guestsList = Array.from(guestsNumber);
     var currentValue = roomsNumber.value;
     if (currentValue === ROOMS_MAX_VALUE) {
@@ -26,12 +58,15 @@
         } else {
           option.disabled = true;
         }
+        if (currentValue === option.value) {
+          option.selected = true;
+        }
         guestsList[guestsList.length - 1].disabled = true;
       });
     }
   };
 
-  var validateGuests = function () {
+  var onGuestsChange = function () {
     var roomsList = Array.from(roomsNumber);
     var currentValue = guestsNumber.value;
     if (currentValue === GUESTS_MIN_VALUE) {
@@ -48,13 +83,17 @@
         } else {
           option.disabled = true;
         }
+        if (currentValue === option.value) {
+          option.selected = true;
+        }
         roomsList[roomsList.length - 1].disabled = true;
       });
     }
   };
 
   window.validate = {
-    validateRooms: validateRooms,
-    validateGuests: validateGuests
+    onHomeTypeChange: onHomeTypeChange,
+    onRoomsChange: onRoomsChange,
+    onGuestsChange: onGuestsChange
   };
 })();

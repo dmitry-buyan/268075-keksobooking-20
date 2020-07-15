@@ -60,65 +60,75 @@
     return fragment;
   };
 
-  var renderData = function (arr, node, cb) {
-    if (arr && arr.length > 0) {
-      node.appendChild(cb(arr));
-    } else {
-      node.remove();
-    }
-  };
-
   var removeChildNodes = function (parent) {
     while (parent.firstChild) {
       parent.removeChild(parent.firstChild);
     }
   };
 
-  var checkUserAvatar = function (data, node) {
-    return data ? (node.src = data) : node.remove();
+  var cardElement = cardTemplate.cloneNode(true);
+
+  var renderCard = function () {
+    cardElement.classList.add('hidden');
+    document.querySelector('.map__filters-container').before(cardElement);
+
+    return cardElement;
   };
 
-  var renderCard = function (card) {
-    var cardElement = cardTemplate.cloneNode(true);
+  var renderCardData = function (card) {
     var featuresList = cardElement.querySelector('.popup__features');
+    var photosList = cardElement.querySelector('.popup__photos');
 
     removeChildNodes(featuresList);
-    checkUserAvatar(card.author.avatar, cardElement.querySelector('.popup__avatar'));
+    removeChildNodes(photosList);
+
+    if (card.author.avatar) {
+      cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+    } else {
+      cardElement.querySelector('.popup__avatar').classList.add('hidden');
+    }
 
     if (card.offer.title) {
       cardElement.querySelector('.popup__title').textContent = card.offer.title;
     } else {
-      cardElement.querySelector('.popup__title').remove();
+      cardElement.querySelector('.popup__title').classList.add('hidden');
     }
 
     if (card.offer.address) {
       cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
     } else {
-      cardElement.querySelector('.popup__text--address').remove();
+      cardElement.querySelector('.popup__text--address').classList.add('hidden');
     }
 
     if (card.offer.price) {
       cardElement.querySelector('.popup__text--price').textContent = card.offer.price + TextLines.PRICE;
     } else {
-      cardElement.querySelector('.popup__text--price').remove();
+      cardElement.querySelector('.popup__text--price').classList.add('hidden');
     }
 
     if (card.offer.type) {
       cardElement.querySelector('.popup__type').textContent = homeTypesTranslation[card.offer.type];
     } else {
-      cardElement.querySelector('.popup__type').remove();
+      cardElement.querySelector('.popup__type').classList.add('hidden');
     }
 
-    if (card.offer.room && card.offer.guests) {
+    if (card.offer.rooms && card.offer.guests) {
       cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + TextLines.ROOMS + card.offer.guests + TextLines.GUESTS;
     } else {
-      cardElement.querySelector('.popup__text--capacity').remove();
+      cardElement.querySelector('.popup__text--capacity').classList.add('hidden');
     }
 
     if (card.offer.checkin && card.offer.checkout) {
       cardElement.querySelector('.popup__text--time').textContent = TextLines.CHECKIN + card.offer.checkin + TextLines.CHECKOUT + card.offer.checkout;
     } else {
-      cardElement.querySelector('.popup__text--time').remove();
+      cardElement.querySelector('.popup__text--time').classList.add('hidden');
+    }
+
+    if (card.offer.features.length > 0) {
+      cardElement.querySelector('.popup__features').appendChild(renderFeatures(card.offer.features));
+      cardElement.querySelector('.popup__features').classList.remove('hidden');
+    } else {
+      cardElement.querySelector('.popup__features').classList.add('hidden');
     }
 
     if (card.offer.description) {
@@ -127,23 +137,16 @@
       cardElement.querySelector('.popup__description').textContent = card.offer.description;
     }
 
-    renderData(card.offer.features, cardElement.querySelector('.popup__features'), renderFeatures);
-    renderData(card.offer.photos, cardElement.querySelector('.popup__photos'), renderCardPhotos);
-
-    return cardElement;
-  };
-
-  var renderCards = function (cards) {
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < window.pin.MAX_PINS_COUNT; i++) {
-      fragment.appendChild(renderCard(cards[i]));
+    if (card.offer.photos.length > 0) {
+      cardElement.querySelector('.popup__photos').appendChild(renderCardPhotos(card.offer.photos));
+      cardElement.querySelector('.popup__photos').classList.remove('hidden');
+    } else {
+      cardElement.querySelector('.popup__photos').classList.add('hidden');
     }
-
-    document.querySelector('.map__filters-container').before(fragment);
   };
 
   window.card = {
-    renderCards: renderCards
+    renderCard: renderCard,
+    renderCardData: renderCardData
   };
 })();

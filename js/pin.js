@@ -25,6 +25,14 @@
     pinTemplate.style.left = pin.location.x + 'px';
     pinTemplate.style.top = pin.location.y + 'px';
 
+    pinElement.addEventListener('click', function (evt) {
+      window.card.renderCardData(pin);
+      window.popup.openPopup();
+      if (document.activeElement === evt.target) {
+        evt.currentTarget.setAttribute('disabled', 'disabled');
+      }
+    });
+
     return pinElement;
   };
 
@@ -40,7 +48,7 @@
 
   var onSuccess = function (data) {
     renderPins(data);
-    window.card.renderCards(data);
+    window.card.renderCard();
   };
 
   var onError = function (message) {
