@@ -65,11 +65,12 @@
 
   window.addEventListener('load', function () {
     setMainPinToCenter();
-    window.form.setAddressFieldValue();
     window.form.deactivateForm();
+    window.drag.setMainPinAddress(window.drag.mainPinCoords.x + window.pin.MAIN_PIN.width / 2, window.drag.mainPinCoords.y + window.pin.MAIN_PIN.height);
   });
 
   window.pin = {
+    MAIN_PIN: MAIN_PIN,
     MAX_PINS_COUNT: MAX_PINS_COUNT,
     onSuccess: onSuccess,
     onError: onError

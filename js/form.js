@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var map = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var formFieldsets = adForm.querySelectorAll('fieldset');
   var addressField = adForm.querySelector('#address');
@@ -10,10 +9,6 @@
   var homeType = adForm.querySelector('#type');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
-
-  var setAddressFieldValue = function () {
-    addressField.value = map.offsetWidth / 2 + ', ' + map.offsetHeight / 2;
-  };
 
   var activateForm = function () {
     for (var i = 0; i < formFieldsets.length; i++) {
@@ -52,7 +47,7 @@
   });
 
   window.form = {
-    setAddressFieldValue: setAddressFieldValue,
+    addressField: addressField,
     activateForm: activateForm,
     deactivateForm: deactivateForm
   };
