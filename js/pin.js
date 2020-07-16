@@ -48,7 +48,6 @@
 
   var onSuccess = function (data) {
     renderPins(data);
-    window.card.renderCard();
   };
 
   var onError = function (message) {

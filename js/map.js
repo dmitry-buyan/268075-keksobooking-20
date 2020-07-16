@@ -19,7 +19,6 @@
       activateMap();
       window.load(window.pin.onSuccess, window.pin.onError);
       window.form.activateForm();
-      window.form.setAddressFieldValue();
     }
 
     mainPin.removeEventListener('mousedown', onMapActivate);
