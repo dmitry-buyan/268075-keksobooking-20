@@ -17,7 +17,7 @@
   var onMapActivate = function (evt) {
     if (evt.key === ENTER || evt.button === BUTTON_LEFT) {
       activateMap();
-      window.load(window.pin.onSuccess, window.pin.onError);
+      window.backend.load(window.pin.onSuccess, window.pin.onError);
       window.form.activateForm();
     }
 
