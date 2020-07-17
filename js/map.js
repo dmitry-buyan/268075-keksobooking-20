@@ -14,6 +14,11 @@
     adForm.classList.remove('ad-form--disabled');
   };
 
+  var deactivateMap = function () {
+    map.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+  };
+
   var onMapActivate = function (evt) {
     if (evt.key === ENTER || evt.button === BUTTON_LEFT) {
       activateMap();
@@ -27,4 +32,8 @@
 
   mainPin.addEventListener('mousedown', onMapActivate);
   mainPin.addEventListener('keydown', onMapActivate);
+
+  window.map = {
+    deactivateMap: deactivateMap
+  };
 })();

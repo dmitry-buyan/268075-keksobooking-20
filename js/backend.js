@@ -6,8 +6,8 @@
   var JSON_TYPE = 'json';
 
   var URL = {
-    load: 'https://javascript.pages.academy/keksobooking/data',
-    upload: 'https://javascript.pages.academy/keksobooking'
+    LOAD: 'https://javascript.pages.academy/keksobooking/data',
+    UPLOAD: 'https://javascript.pages.academy/keksobooking'
   };
 
   var Code = {
@@ -43,14 +43,14 @@
 
     xhr.timeout = MAX_TIMEOUT;
 
-    xhr.open(HttpMethod.GET, URL.load);
+    xhr.open(HttpMethod.GET, URL.LOAD);
     xhr.send();
   };
 
-  var upload = function (onLoad, onError) {
+  var upload = function (data, onUpload, onError) {
     xhr.addEventListener('load', function () {
       if (xhr.status === Code.SUCCESS) {
-        onLoad(xhr.response);
+        onUpload(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -61,13 +61,13 @@
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + MAX_TIMEOUT + 'мс');
+      onError('Отправка данных не успела выполниться за ' + MAX_TIMEOUT + 'мс');
     });
 
     xhr.timeout = MAX_TIMEOUT;
 
-    xhr.open(HttpMethod.POST, URL.upload);
-    xhr.send();
+    xhr.open(HttpMethod.POST, URL.UPLOAD);
+    xhr.send(data);
   };
 
   window.backend = {
