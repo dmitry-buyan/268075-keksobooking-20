@@ -46,12 +46,14 @@
     timeIn.value = evt.target.value;
   });
 
-  form.addEventListener('submit', function (evt) {
+  var onFormSubmit = function (evt) {
     window.backend.upload(new FormData(form), function () {
-      window.map.deactivateMap();
+
     });
     evt.preventDefault();
-  });
+  };
+
+  form.addEventListener('submit', onFormSubmit);
 
   window.form = {
     addressField: addressField,
