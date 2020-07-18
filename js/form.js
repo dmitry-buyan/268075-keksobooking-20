@@ -3,7 +3,6 @@
 (function () {
   var adForm = document.querySelector('.ad-form');
   var formFieldsets = adForm.querySelectorAll('.ad-form__element');
-  var addressField = adForm.querySelector('#address');
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
   var homeType = adForm.querySelector('#type');
@@ -13,7 +12,7 @@
   var activateForm = function () {
     formFieldsets.forEach(function (it) {
       if (it.hasAttribute('disabled')) {
-        it.removeAttribute('disabled');
+        it.disabled = false;
       }
     });
   };
@@ -21,7 +20,7 @@
   var deactivateForm = function () {
     formFieldsets.forEach(function (it) {
       if (!it.hasAttribute('disabled')) {
-        it.setAttribute('disabled', 'disabled');
+        it.disabled = true;
       }
     });
   };
@@ -46,18 +45,24 @@
     timeIn.value = evt.target.value;
   });
 
-  var onFormSubmit = function (evt) {
-    window.backend.upload(new FormData(adForm), function () {
-
-    });
-    evt.preventDefault();
+  var onFormSubmitSuccess = function () {
     adForm.reset();
+    deactivateForm();
+    window.pin.resetMainPin();
+    window.pin.removePins();
+    window.map.deactivateMap();
+    window.map.mainPin.addEventListener('mousedown', window.map.onMapActivate);
+    window.map.mainPin.addEventListener('keydown', window.map.onMapActivate);
+  };
+
+  var onFormSubmit = function (evt) {
+    evt.preventDefault();
+    window.backend.upload(new FormData(adForm), onFormSubmitSuccess);
   };
 
   adForm.addEventListener('submit', onFormSubmit);
 
   window.form = {
-    addressField: addressField,
     activateForm: activateForm,
     deactivateForm: deactivateForm
   };
