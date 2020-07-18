@@ -1,29 +1,29 @@
 'use strict';
 
 (function () {
-  var form = document.querySelector('.ad-form');
-  var formFieldsets = form.querySelectorAll('fieldset');
-  var addressField = form.querySelector('#address');
-  var roomsNumber = form.querySelector('#room_number');
-  var guestsNumber = form.querySelector('#capacity');
-  var homeType = form.querySelector('#type');
-  var timeIn = form.querySelector('#timein');
-  var timeOut = form.querySelector('#timeout');
+  var adForm = document.querySelector('.ad-form');
+  var formFieldsets = adForm.querySelectorAll('.ad-form__element');
+  var addressField = adForm.querySelector('#address');
+  var roomsNumber = adForm.querySelector('#room_number');
+  var guestsNumber = adForm.querySelector('#capacity');
+  var homeType = adForm.querySelector('#type');
+  var timeIn = adForm.querySelector('#timein');
+  var timeOut = adForm.querySelector('#timeout');
 
   var activateForm = function () {
-    for (var i = 0; i < formFieldsets.length; i++) {
-      if (formFieldsets[i].hasAttribute('disabled')) {
-        formFieldsets[i].removeAttribute('disabled');
+    formFieldsets.forEach(function (it) {
+      if (it.hasAttribute('disabled')) {
+        it.removeAttribute('disabled');
       }
-    }
+    });
   };
 
   var deactivateForm = function () {
-    for (var i = 0; i < formFieldsets.length; i++) {
-      if (!formFieldsets[i].hasAttribute('disabled')) {
-        formFieldsets[i].setAttribute('disabled', 'disabled');
+    formFieldsets.forEach(function (it) {
+      if (!it.hasAttribute('disabled')) {
+        it.setAttribute('disabled', 'disabled');
       }
-    }
+    });
   };
 
   roomsNumber.addEventListener('change', function () {
@@ -47,13 +47,14 @@
   });
 
   var onFormSubmit = function (evt) {
-    window.backend.upload(new FormData(form), function () {
+    window.backend.upload(new FormData(adForm), function () {
 
     });
     evt.preventDefault();
+    adForm.reset();
   };
 
-  form.addEventListener('submit', onFormSubmit);
+  adForm.addEventListener('submit', onFormSubmit);
 
   window.form = {
     addressField: addressField,
