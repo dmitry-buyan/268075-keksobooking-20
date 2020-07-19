@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var DEFAULT_AVATAR = 'img/muffin-grey.svg';
+
   var adForm = document.querySelector('.ad-form');
   var formFieldsets = adForm.querySelectorAll('.ad-form__element');
   var roomsNumber = adForm.querySelector('#room_number');
@@ -8,6 +10,8 @@
   var homeType = adForm.querySelector('#type');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
+  var userAvatar = adForm.querySelector('.ad-form-header__preview').querySelectorAll('img');
+  var resetButton = adForm.querySelector('.ad-form__reset');
 
   var activateForm = function () {
     formFieldsets.forEach(function (it) {
@@ -53,14 +57,28 @@
     window.map.deactivateMap();
     window.map.mainPin.addEventListener('mousedown', window.map.onMapActivate);
     window.map.mainPin.addEventListener('keydown', window.map.onMapActivate);
+    window.popup.showMessage('success');
+  };
+
+  var onFormSubmitError = function () {
+    window.popup.showMessage('error');
   };
 
   var onFormSubmit = function (evt) {
     evt.preventDefault();
-    window.backend.upload(new FormData(adForm), onFormSubmitSuccess);
+    window.backend.upload(new FormData(adForm), onFormSubmitSuccess, onFormSubmitError);
   };
 
   adForm.addEventListener('submit', onFormSubmit);
+
+  var onResetButtonClick = function (evt) {
+    evt.preventDefault();
+    userAvatar.src = DEFAULT_AVATAR;
+    window.pin.resetMainPin();
+    adForm.reset();
+  };
+
+  resetButton.addEventListener('click', onResetButtonClick);
 
   window.form = {
     activateForm: activateForm,

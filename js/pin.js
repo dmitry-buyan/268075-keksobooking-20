@@ -45,7 +45,7 @@
       window.card.renderCardData(pin);
       window.popup.openPopup();
       if (document.activeElement === evt.target) {
-        evt.currentTarget.setAttribute('disabled', 'disabled');
+        evt.currentTarget.disabled = true;
       }
     });
 

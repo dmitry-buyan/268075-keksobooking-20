@@ -21,10 +21,10 @@
     POST: 'POST'
   };
 
-  var xhr = new XMLHttpRequest();
-  xhr.responseType = JSON_TYPE;
-
   var load = function (onLoad, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = JSON_TYPE;
+
     xhr.addEventListener('load', function () {
       if (xhr.status === Code.SUCCESS) {
         onLoad(xhr.response);
@@ -48,6 +48,9 @@
   };
 
   var upload = function (data, onUpload, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = JSON_TYPE;
+
     xhr.addEventListener('load', function () {
       if (xhr.status === Code.SUCCESS) {
         onUpload(xhr.response);
