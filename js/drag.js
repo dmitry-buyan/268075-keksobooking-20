@@ -10,15 +10,6 @@
 
   var mainPin = document.querySelector('.map__pin--main');
 
-  var mainPinCoords = {
-    x: mainPin.offsetLeft,
-    y: mainPin.offsetTop
-  };
-
-  var setMainPinAddress = function (x, y) {
-    window.form.addressField.value = x + ', ' + y;
-  };
-
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -40,31 +31,31 @@
         y: moveEvt.clientY
       };
 
-      mainPinCoords = {
+      window.pin.mainPinCoords = {
         x: mainPin.offsetLeft - shift.x,
         y: mainPin.offsetTop - shift.y
       };
 
-      if (mainPinCoords.x > MAP_COORDS.maxX) {
-        mainPinCoords.x = MAP_COORDS.maxX;
+      if (window.pin.mainPinCoords.x > MAP_COORDS.maxX) {
+        window.pin.mainPinCoords.x = MAP_COORDS.maxX;
       }
 
-      if (mainPinCoords.x < MAP_COORDS.minX) {
-        mainPinCoords.x = MAP_COORDS.minX;
+      if (window.pin.mainPinCoords.x < MAP_COORDS.minX) {
+        window.pin.mainPinCoords.x = MAP_COORDS.minX;
       }
 
-      if (mainPinCoords.y > MAP_COORDS.maxY) {
-        mainPinCoords.y = MAP_COORDS.maxY;
+      if (window.pin.mainPinCoords.y > MAP_COORDS.maxY) {
+        window.pin.mainPinCoords.y = MAP_COORDS.maxY;
       }
 
-      if (mainPinCoords.y < MAP_COORDS.minY) {
-        mainPinCoords.y = MAP_COORDS.minY;
+      if (window.pin.mainPinCoords.y < MAP_COORDS.minY) {
+        window.pin.mainPinCoords.y = MAP_COORDS.minY;
       }
 
-      mainPin.style.left = mainPinCoords.x + 'px';
-      mainPin.style.top = mainPinCoords.y + 'px';
+      mainPin.style.left = window.pin.mainPinCoords.x + 'px';
+      mainPin.style.top = window.pin.mainPinCoords.y + 'px';
 
-      setMainPinAddress(mainPinCoords.x + window.pin.MAIN_PIN.width / 2, mainPinCoords.y + window.pin.MAIN_PIN.height);
+      window.map.setMainPinAddress();
     };
 
     var onMouseUp = function (upEvt) {
@@ -77,9 +68,4 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-
-  window.drag = {
-    mainPinCoords: mainPinCoords,
-    setMainPinAddress: setMainPinAddress
-  };
 })();
