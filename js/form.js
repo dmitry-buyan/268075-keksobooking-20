@@ -12,12 +12,17 @@
   var timeOut = adForm.querySelector('#timeout');
   var userAvatar = adForm.querySelector('.ad-form-header__preview').querySelectorAll('img');
   var resetButton = adForm.querySelector('.ad-form__reset');
+  var filterForm = document.querySelector('.map__filters');
 
   var activateForm = function () {
     formFieldsets.forEach(function (it) {
       if (it.hasAttribute('disabled')) {
         it.disabled = false;
       }
+    });
+
+    Array.from(filterForm).forEach(function (it) {
+      it.disabled = false;
     });
   };
 
@@ -26,6 +31,10 @@
       if (!it.hasAttribute('disabled')) {
         it.disabled = true;
       }
+    });
+
+    Array.from(filterForm).forEach(function (it) {
+      it.disabled = true;
     });
   };
 
@@ -73,9 +82,9 @@
 
   var onResetButtonClick = function (evt) {
     evt.preventDefault();
+    adForm.reset();
     userAvatar.src = DEFAULT_AVATAR;
     window.pin.resetMainPin();
-    adForm.reset();
   };
 
   resetButton.addEventListener('click', onResetButtonClick);
