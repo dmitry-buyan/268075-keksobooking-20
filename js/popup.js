@@ -52,6 +52,7 @@
 
   window.popup = {
     openPopup: openPopup,
+    closePopup: closePopup,
     showMessage: showMessage
   };
 })();

@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var MAX_PINS_COUNT = 8;
-
   var MAIN_PIN = {
     width: 65,
     height: 65,
@@ -55,15 +53,19 @@
   var renderPins = function (pins) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < MAX_PINS_COUNT; i++) {
-      fragment.appendChild(renderPin(pins[i]));
-    }
+    removePins();
+    window.popup.closePopup();
+
+    pins.forEach(function (it) {
+      fragment.appendChild(renderPin(it));
+    });
 
     pinsList.appendChild(fragment);
   };
 
   var onSuccess = function (data) {
-    renderPins(data);
+    window.offers = data;
+    renderPins(window.filter.filterPins(data));
   };
 
   var removePins = function () {
@@ -95,8 +97,8 @@
 
   window.pin = {
     MAIN_PIN: MAIN_PIN,
-    MAX_PINS_COUNT: MAX_PINS_COUNT,
     mainPinCoords: mainPinCoords,
+    renderPins: renderPins,
     removePins: removePins,
     resetMainPin: resetMainPin,
     onSuccess: onSuccess,
