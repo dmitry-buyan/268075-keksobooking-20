@@ -85,6 +85,7 @@
     adForm.reset();
     userAvatar.src = DEFAULT_AVATAR;
     window.pin.resetMainPin();
+    window.preview.resetPreview();
   };
 
   resetButton.addEventListener('click', onResetButtonClick);
