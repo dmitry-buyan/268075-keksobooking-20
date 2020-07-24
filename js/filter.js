@@ -14,9 +14,12 @@
     FEATURES: filterForm.querySelector('#housing-features')
   };
 
-  var filterPrice = {
-    low: 10000,
-    high: 50000
+  var FilterPrices = {
+    MIN: 10000,
+    MAX: 50000,
+    LOW: 'low',
+    MIDDLE: 'middle',
+    HIGH: 'high'
   };
 
   var getHouseTypeValue = function (it) {
@@ -25,12 +28,12 @@
 
   var getHousePriceValue = function (it) {
     switch (HouseFilter.PRICE.value) {
-      case 'low':
-        return it.offer.price < filterPrice.low;
-      case 'middle':
-        return it.offer.price >= filterPrice.low && it.offer.price < filterPrice.high;
-      case 'high':
-        return it.offer.price >= filterPrice.high;
+      case FilterPrices.LOW:
+        return it.offer.price < FilterPrices.MIN;
+      case FilterPrices.MIDDLE:
+        return it.offer.price >= FilterPrices.MIN && it.offer.price < FilterPrices.MAX;
+      case FilterPrices.HIGH:
+        return it.offer.price >= FilterPrices.MAX;
       default:
         return true;
     }

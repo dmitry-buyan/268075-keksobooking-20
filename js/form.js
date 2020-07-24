@@ -83,9 +83,12 @@
   var onResetButtonClick = function (evt) {
     evt.preventDefault();
     adForm.reset();
+    filterForm.reset();
     userAvatar.src = DEFAULT_AVATAR;
     window.pin.resetMainPin();
-    window.preview.resetPreview();
+    window.pin.removePins();
+    deactivateForm();
+    window.map.deactivateMap();
   };
 
   resetButton.addEventListener('click', onResetButtonClick);

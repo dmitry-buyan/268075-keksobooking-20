@@ -28,6 +28,7 @@
     mainPin.style.left = MAIN_PIN.left + 'px';
     mainPin.style.top = MAIN_PIN.top + 'px';
     addressField.value = MAIN_PIN.left + ', ' + MAIN_PIN.top;
+    mainPin.addEventListener('mousedown', window.map.onMapActivate);
   };
 
 
