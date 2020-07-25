@@ -16,7 +16,7 @@
     SERVER_ERROR: 500
   };
 
-  var HttpMethod = {
+  var HttpMethods = {
     GET: 'GET',
     POST: 'POST'
   };
@@ -43,7 +43,7 @@
 
     xhr.timeout = MAX_TIMEOUT;
 
-    xhr.open(HttpMethod.GET, URL.LOAD);
+    xhr.open(HttpMethods.GET, URL.LOAD);
     xhr.send();
   };
 
@@ -69,7 +69,7 @@
 
     xhr.timeout = MAX_TIMEOUT;
 
-    xhr.open(HttpMethod.POST, URL.UPLOAD);
+    xhr.open(HttpMethods.POST, URL.UPLOAD);
     xhr.send(data);
   };
 
