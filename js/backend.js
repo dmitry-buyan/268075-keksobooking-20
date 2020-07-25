@@ -10,7 +10,7 @@
     UPLOAD: 'https://javascript.pages.academy/keksobooking'
   };
 
-  var Code = {
+  var Codes = {
     SUCCESS: 200,
     NOT_FOUND_ERROR: 404,
     SERVER_ERROR: 500
@@ -26,7 +26,7 @@
     xhr.responseType = JSON_TYPE;
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === Code.SUCCESS) {
+      if (xhr.status === Codes.SUCCESS) {
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -52,7 +52,7 @@
     xhr.responseType = JSON_TYPE;
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === Code.SUCCESS) {
+      if (xhr.status === Codes.SUCCESS) {
         onUpload(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
