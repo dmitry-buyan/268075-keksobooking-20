@@ -3,6 +3,7 @@
 (function () {
   var MIN_PINS_COUNT = 0;
   var MAX_PINS_COUNT = 5;
+  var ANY_VALUE = 'any';
 
   var filterForm = document.querySelector('.map__filters');
 
@@ -23,7 +24,7 @@
   };
 
   var getHouseTypeValue = function (it) {
-    return it.offer.type === HouseFilter.TYPE.value || HouseFilter.TYPE.value === 'any';
+    return it.offer.type === HouseFilter.TYPE.value || HouseFilter.TYPE.value === ANY_VALUE;
   };
 
   var getHousePriceValue = function (it) {
@@ -40,11 +41,11 @@
   };
 
   var getHouseRoomsValue = function (it) {
-    return it.offer.rooms === Number(HouseFilter.ROOMS.value) || HouseFilter.ROOMS.value === 'any';
+    return it.offer.rooms === Number(HouseFilter.ROOMS.value) || HouseFilter.ROOMS.value === ANY_VALUE;
   };
 
   var getHouseGuestsValue = function (it) {
-    return it.offer.guests === Number(HouseFilter.GUESTS.value) || HouseFilter.GUESTS.value === 'any';
+    return it.offer.guests === Number(HouseFilter.GUESTS.value) || HouseFilter.GUESTS.value === ANY_VALUE;
   };
 
   var getHouseFeaturesValue = function (it) {
@@ -71,12 +72,12 @@
   };
 
   var onFormChange = window.debounce(function () {
-    window.pin.renderPins(filterPins(window.offers));
+    window.pin.render(filterPins(window.offers));
   });
 
   filterForm.addEventListener('change', onFormChange);
 
   window.filter = {
-    filterPins: filterPins
+    filterData: filterPins
   };
 })();

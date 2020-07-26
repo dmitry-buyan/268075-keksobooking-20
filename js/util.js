@@ -1,36 +1,34 @@
 'use strict';
 
-window.util = (function () {
+(function () {
   var ENTER = 'Enter';
-
   var ESCAPE = 'Escape';
-
   var CLICK = 'click';
 
-  return {
-    ENTER: ENTER,
-    ESCAPE: ESCAPE,
-    CLICK: CLICK,
-
-    isEnterEvent: function (evt, action) {
-      if (evt.key === this.ENTER) {
-        evt.preventDefault();
-        action();
-      }
-    },
-
-    isEscEvent: function (evt, action) {
-      if (evt.key === this.ESCAPE) {
-        evt.preventDefault();
-        action();
-      }
-    },
-
-    isClickEvent: function (evt, action) {
-      if (evt.type === this.CLICK) {
-        evt.preventDefault();
-        action();
-      }
+  var isEnterEvent = function (evt, action) {
+    if (evt.key === ENTER) {
+      evt.preventDefault();
+      action();
     }
+  };
+
+  var isEscEvent = function (evt, action) {
+    if (evt.key === ESCAPE) {
+      evt.preventDefault();
+      action();
+    }
+  };
+
+  var isClickEvent = function (evt, action) {
+    if (evt.type === CLICK) {
+      evt.preventDefault();
+      action();
+    }
+  };
+
+  window.util = {
+    isEnter: isEnterEvent,
+    isEscape: isEscEvent,
+    isClick: isClickEvent
   };
 })();

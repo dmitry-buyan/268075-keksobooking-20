@@ -1,11 +1,11 @@
 'use strict';
 
 (function () {
-  var userCard = window.card.renderCard();
+  var userCard = window.card.render();
   var cardClose = userCard.querySelector('.popup__close');
 
   var onPopupEscPress = function (evt) {
-    window.util.isEscEvent(evt, closePopup);
+    window.util.isEscape(evt, closePopup);
   };
 
   var openPopup = function () {
@@ -22,18 +22,18 @@
     closePopup();
   });
 
-  var showMessage = function (typeMessage) {
+  var renderMessage = function (typeMessage) {
     var messageTemplate = document.querySelector('#' + typeMessage).content.querySelector('.' + typeMessage);
     var message = messageTemplate.cloneNode(true);
     var errorButton = message.querySelector('.error__button');
     document.querySelector('main').appendChild(message);
 
     var onPageEscPress = function (evt) {
-      window.util.isEscEvent(evt, closeMessage);
+      window.util.isEscape(evt, closeMessage);
     };
 
     var onPageClick = function (evt) {
-      window.util.isClickEvent(evt, closeMessage);
+      window.util.isClick(evt, closeMessage);
     };
 
     var closeMessage = function () {
@@ -51,8 +51,8 @@
   };
 
   window.popup = {
-    openPopup: openPopup,
-    closePopup: closePopup,
-    showMessage: showMessage
+    open: openPopup,
+    close: closePopup,
+    showMessage: renderMessage
   };
 })();

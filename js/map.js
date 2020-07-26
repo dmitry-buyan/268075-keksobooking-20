@@ -11,8 +11,8 @@
   var addressField = adForm.querySelector('#address');
 
   var setMainPinAddress = function () {
-    var x = window.pin.mainPinCoords.x + window.pin.MAIN_PIN.width / 2;
-    var y = window.pin.mainPinCoords.y + window.pin.MAIN_PIN.height;
+    var x = Math.floor(window.pin.coords.x + window.pin.mainPin.width / 2);
+    var y = Math.floor(window.pin.coords.y + window.pin.mainPin.height);
     addressField.value = x + ', ' + y;
   };
 
@@ -29,8 +29,8 @@
   var onMapActivate = function (evt) {
     if (evt.key === ENTER || evt.button === BUTTON_LEFT) {
       activateMap();
-      window.backend.load(window.pin.onSuccess, window.pin.onError);
-      window.form.activateForm();
+      window.backend.load(window.pin.onSuccessLoad, window.pin.onErrorLoad);
+      window.form.activate();
     }
 
     mainPin.removeEventListener('mousedown', onMapActivate);
@@ -41,9 +41,8 @@
   mainPin.addEventListener('keydown', onMapActivate);
 
   window.map = {
-    setMainPinAddress: setMainPinAddress,
-    deactivateMap: deactivateMap,
-    onMapActivate: onMapActivate,
-    mainPin: mainPin
+    setPinAddress: setMainPinAddress,
+    deactivate: deactivateMap,
+    onMapClick: onMapActivate
   };
 })();

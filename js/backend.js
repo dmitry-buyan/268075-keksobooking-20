@@ -21,7 +21,7 @@
     POST: 'POST'
   };
 
-  var load = function (onLoad, onError) {
+  var loadData = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = JSON_TYPE;
 
@@ -47,7 +47,7 @@
     xhr.send();
   };
 
-  var upload = function (data, onUpload, onError) {
+  var uploadData = function (data, onUpload, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = JSON_TYPE;
 
@@ -74,7 +74,7 @@
   };
 
   window.backend = {
-    load: load,
-    upload: upload
+    load: loadData,
+    upload: uploadData
   };
 })();

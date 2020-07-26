@@ -2,17 +2,17 @@
 
 (function () {
   var DEFAULT_AVATAR = 'img/muffin-grey.svg';
+  var MIN_PRICE = 0;
 
   var adForm = document.querySelector('.ad-form');
   var formFieldsets = adForm.querySelectorAll('.ad-form__element');
-  var roomsNumber = adForm.querySelector('#room_number');
-  var guestsNumber = adForm.querySelector('#capacity');
   var homeType = adForm.querySelector('#type');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
   var userAvatar = adForm.querySelector('.ad-form-header__preview').querySelectorAll('img');
   var resetButton = adForm.querySelector('.ad-form__reset');
   var filterForm = document.querySelector('.map__filters');
+  var priceField = adForm.querySelector('#price');
 
   var activateForm = function () {
     formFieldsets.forEach(function (it) {
@@ -38,12 +38,15 @@
     });
   };
 
-  roomsNumber.addEventListener('change', function () {
+  var roomsSelect = adForm.querySelector('#room_number');
+  var guestsSelect = adForm.querySelector('#capacity');
+
+  roomsSelect.addEventListener('change', function () {
     window.validate.onRoomsChange();
   });
 
-  guestsNumber.addEventListener('change', function () {
-    window.validate.onGuestsChange();
+  guestsSelect.addEventListener('change', function () {
+    window.validate.onRoomsChange();
   });
 
   homeType.addEventListener('change', function () {
@@ -61,12 +64,11 @@
   var onFormSubmitSuccess = function () {
     adForm.reset();
     deactivateForm();
-    window.pin.resetMainPin();
-    window.pin.removePins();
-    window.map.deactivateMap();
-    window.map.mainPin.addEventListener('mousedown', window.map.onMapActivate);
-    window.map.mainPin.addEventListener('keydown', window.map.onMapActivate);
+    window.pin.reset();
+    window.pin.remove();
+    window.map.deactivate();
     window.popup.showMessage('success');
+    window.preview.reset();
   };
 
   var onFormSubmitError = function () {
@@ -80,21 +82,29 @@
 
   adForm.addEventListener('submit', onFormSubmit);
 
-  var onResetButtonClick = function (evt) {
-    evt.preventDefault();
+  var resetForm = function () {
     adForm.reset();
     filterForm.reset();
     userAvatar.src = DEFAULT_AVATAR;
-    window.pin.resetMainPin();
-    window.pin.removePins();
+    priceField.placeholder = MIN_PRICE;
+    priceField.value = '';
     deactivateForm();
-    window.map.deactivateMap();
+    window.preview.reset();
+  };
+
+  var onResetButtonClick = function (evt) {
+    evt.preventDefault();
+    resetForm();
+    window.pin.reset();
+    window.pin.remove();
+    window.card.close();
+    window.map.deactivate();
   };
 
   resetButton.addEventListener('click', onResetButtonClick);
 
   window.form = {
-    activateForm: activateForm,
-    deactivateForm: deactivateForm
+    activate: activateForm,
+    deactivate: deactivateForm
   };
 })();

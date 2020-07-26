@@ -48,6 +48,6 @@
   photoChooser.addEventListener('change', onPhotoChange);
 
   window.preview = {
-    resetPreview: resetPreview
+    reset: resetPreview
   };
 })();

@@ -19,10 +19,10 @@
   };
 
   var homeTypesTranslation = {
-    'flat': 'Квартира',
-    'bungalo': 'Бунгало',
-    'house': 'Дом',
-    'palace': 'Дворец'
+    flat: 'Квартира',
+    bungalo: 'Бунгало',
+    house: 'Дом',
+    palace: 'Дворец'
   };
 
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
@@ -82,71 +82,86 @@
     removeChildNodes(featuresList);
     removeChildNodes(photosList);
 
+    var userAvatar = cardElement.querySelector('.popup__avatar');
     if (card.author.avatar) {
-      cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+      userAvatar.src = card.author.avatar;
     } else {
-      cardElement.querySelector('.popup__avatar').classList.add('hidden');
+      userAvatar.classList.add('hidden');
     }
 
+    var offerTitle = cardElement.querySelector('.popup__title');
     if (card.offer.title) {
-      cardElement.querySelector('.popup__title').textContent = card.offer.title;
+      offerTitle.textContent = card.offer.title;
     } else {
-      cardElement.querySelector('.popup__title').classList.add('hidden');
+      offerTitle.classList.add('hidden');
     }
 
+    var offerAddress = cardElement.querySelector('.popup__text--address');
     if (card.offer.address) {
-      cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
+      offerAddress.textContent = card.offer.address;
     } else {
-      cardElement.querySelector('.popup__text--address').classList.add('hidden');
+      offerAddress.classList.add('hidden');
     }
 
+    var offerPrice = cardElement.querySelector('.popup__text--price');
     if (card.offer.price) {
-      cardElement.querySelector('.popup__text--price').textContent = card.offer.price + TextLines.PRICE;
+      offerPrice.textContent = card.offer.price + TextLines.PRICE;
     } else {
-      cardElement.querySelector('.popup__text--price').classList.add('hidden');
+      offerPrice.classList.add('hidden');
     }
 
+    var homeType = cardElement.querySelector('.popup__type');
     if (card.offer.type) {
-      cardElement.querySelector('.popup__type').textContent = homeTypesTranslation[card.offer.type];
+      homeType.textContent = homeTypesTranslation[card.offer.type];
     } else {
-      cardElement.querySelector('.popup__type').classList.add('hidden');
+      homeType.classList.add('hidden');
     }
 
+    var offerCapacity = cardElement.querySelector('.popup__text--capacity');
     if (card.offer.rooms && card.offer.guests) {
-      cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + TextLines.ROOMS + card.offer.guests + TextLines.GUESTS;
+      offerCapacity.textContent = card.offer.rooms + TextLines.ROOMS + card.offer.guests + TextLines.GUESTS;
     } else {
-      cardElement.querySelector('.popup__text--capacity').classList.add('hidden');
+      offerCapacity.classList.add('hidden');
     }
 
+    var offerTime = cardElement.querySelector('.popup__text--time');
     if (card.offer.checkin && card.offer.checkout) {
-      cardElement.querySelector('.popup__text--time').textContent = TextLines.CHECKIN + card.offer.checkin + TextLines.CHECKOUT + card.offer.checkout;
+      offerTime.textContent = TextLines.CHECKIN + card.offer.checkin + TextLines.CHECKOUT + card.offer.checkout;
     } else {
-      cardElement.querySelector('.popup__text--time').classList.add('hidden');
+      offerTime.classList.add('hidden');
     }
 
-    if (card.offer.features.length > 0) {
-      cardElement.querySelector('.popup__features').appendChild(renderFeatures(card.offer.features));
-      cardElement.querySelector('.popup__features').classList.remove('hidden');
+    var offerFeature = cardElement.querySelector('.popup__features');
+    if (card.offer.features.length) {
+      offerFeature.appendChild(renderFeatures(card.offer.features));
+      offerFeature.classList.remove('hidden');
     } else {
-      cardElement.querySelector('.popup__features').classList.add('hidden');
+      offerFeature.classList.add('hidden');
     }
 
+    var offerDescription = cardElement.querySelector('.popup__description');
     if (card.offer.description) {
-      cardElement.querySelector('.popup__description').textContent = card.offer.description;
+      offerDescription.textContent = card.offer.description;
     } else {
-      cardElement.querySelector('.popup__description').textContent = card.offer.description;
+      offerDescription.textContent = card.offer.description;
     }
 
-    if (card.offer.photos.length > 0) {
-      cardElement.querySelector('.popup__photos').appendChild(renderCardPhotos(card.offer.photos));
-      cardElement.querySelector('.popup__photos').classList.remove('hidden');
+    if (card.offer.photos.length) {
+      photosList.appendChild(renderCardPhotos(card.offer.photos));
+      photosList.classList.remove('hidden');
     } else {
-      cardElement.querySelector('.popup__photos').classList.add('hidden');
+      photosList.classList.add('hidden');
     }
   };
 
+  var closeCard = function () {
+    var card = document.querySelector('.map__card');
+    card.classList.add('hidden');
+  };
+
   window.card = {
-    renderCard: renderCard,
-    renderCardData: renderCardData
+    render: renderCard,
+    renderData: renderCardData,
+    close: closeCard
   };
 })();

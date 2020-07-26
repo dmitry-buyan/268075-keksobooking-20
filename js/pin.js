@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var PIN_ACTIVE = 'map__pin--active';
+
   var MAIN_PIN = {
     width: 65,
     height: 65,
@@ -20,7 +22,7 @@
     y: mainPin.offsetTop
   };
 
-  var setMainPinToCenter = function () {
+  var onPageResize = function () {
     mainPin.style.left = map.offsetWidth / 2 - Math.floor(MAIN_PIN.width / 2) + 'px';
   };
 
@@ -28,7 +30,7 @@
     mainPin.style.left = MAIN_PIN.left + 'px';
     mainPin.style.top = MAIN_PIN.top + 'px';
     addressField.value = MAIN_PIN.left + ', ' + MAIN_PIN.top;
-    mainPin.addEventListener('mousedown', window.map.onMapActivate);
+    mainPin.addEventListener('mousedown', window.map.onMapClick);
   };
 
 
@@ -41,10 +43,12 @@
     pinTemplate.style.top = pin.location.y + 'px';
 
     pinElement.addEventListener('click', function (evt) {
-      window.card.renderCardData(pin);
-      window.popup.openPopup();
-      if (document.activeElement === evt.target) {
-        evt.currentTarget.disabled = true;
+      window.card.renderData(pin);
+      window.popup.open();
+      setPinInactive();
+      if (document.activeElement === evt.currentTarget) {
+        evt.target.disabled = true;
+        evt.currentTarget.classList.add(PIN_ACTIVE);
       }
     });
 
@@ -55,7 +59,7 @@
     var fragment = document.createDocumentFragment();
 
     removePins();
-    window.popup.closePopup();
+    window.popup.close();
 
     pins.forEach(function (it) {
       fragment.appendChild(renderPin(it));
@@ -66,7 +70,16 @@
 
   var onSuccess = function (data) {
     window.offers = data;
-    renderPins(window.filter.filterPins(data));
+    renderPins(window.filter.filterData(data));
+  };
+
+  var setPinInactive = function () {
+    var activePins = document.querySelectorAll('.map__pin--active');
+    if (activePins) {
+      activePins.forEach(function (it) {
+        it.classList.remove(PIN_ACTIVE);
+      });
+    }
   };
 
   var removePins = function () {
@@ -88,21 +101,22 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  window.addEventListener('resize', setMainPinToCenter);
+  window.addEventListener('resize', onPageResize);
 
   window.addEventListener('load', function () {
-    setMainPinToCenter();
-    window.form.deactivateForm();
-    window.map.setMainPinAddress();
+    onPageResize();
+    window.form.deactivate();
+    window.map.setPinAddress();
   });
 
   window.pin = {
-    MAIN_PIN: MAIN_PIN,
-    mainPinCoords: mainPinCoords,
-    renderPins: renderPins,
-    removePins: removePins,
-    resetMainPin: resetMainPin,
-    onSuccess: onSuccess,
-    onError: onError
+    mainPin: MAIN_PIN,
+    coords: mainPinCoords,
+    render: renderPins,
+    remove: removePins,
+    reset: resetMainPin,
+    onSuccessLoad: onSuccess,
+    onErrorLoad: onError,
+    showPinActive: setPinInactive
   };
 })();
